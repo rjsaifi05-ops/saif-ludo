@@ -47,7 +47,7 @@ body{background:#0b132b;color:#f8fafc;padding:16px;padding-bottom:60px}
     <div style="font-size:40px;margin-bottom:8px">🔐</div>
     <h2 style="font-size:20px;font-weight:900">Saif Ludo Admin Access</h2>
     <p style="font-size:12px;color:#94a3b8;margin-top:4px">कृपया 4-अंकों का एडमिन सुरक्षा पिन दर्ज करें</p>
-    <input type="password" id="admin-pin" class="pin-input" maxlength="4" placeholder="••••"><br>
+    <input type="password" id="admin-pin" class="pin-input" maxlength="20" placeholder="••••"><br>
     <button class="btn-blue" style="width:180px" onclick="checkPin()">लॉगिन करें</button>
   </div>
 
@@ -159,7 +159,7 @@ body{background:#0b132b;color:#f8fafc;padding:16px;padding-bottom:60px}
 
 <script>
 // डिफ़ॉल्ट एडमिन पिन (आप अपनी मर्जी से इसे 1122 की जगह कुछ भी रख सकते हैं)
-var ADMIN_SECRET_PIN = "1122";
+var ADMIN_SECRET_PIN = "Mohd@240869";
 
 function checkPin() {
   var p = document.getElementById("admin-pin").value;
