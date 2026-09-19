@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>डैशबोर्ड - सेफ लूडो</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .dashboard-container {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .header-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: #e4ebf5;
+            border-radius: 15px;
+            box-shadow: 6px 6px 12px rgb(163, 177, 198), -6px -6px 12px rgba(255, 255, 255, 0.7);
+        }
+        .wallet-box {
+            background: #27ae60;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 15px;
+        }
+        .action-row {
+            display: flex;
+            gap: 12px;
+        }
+        .action-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 5px 5px 10px rgb(163, 177, 198), -5px -5px 10px rgba(255, 255, 255, 0.7);
+            transition: 0.2s;
+        }
+        .btn-deposit { background: #2ecc71; color: white; }
+        .btn-withdraw { background: #e67e22; color: white; }
+        .action-btn:active { box-shadow: inset 3px 3px 6px rgba(0,0,0,0.2); }
+
+        .alert-box {
+            display: none;
+            padding: 12px;
+            border-radius: 10px;
+            background: #fff3cd;
+            color: #856404;
+            font-size: 13px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .battle-card {
+            background: #e4ebf5;
+            padding: 16px;
+            border-radius: 15px;
+            box-shadow: 6px 6px 12px rgb(163, 177, 198), -6px -6px 12px rgba(255, 255, 255, 0.7);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .prize-tag {
+            color: #27ae60;
+            font-weight: bold;
+            font-size: 13px;
+        }
+        .play-btn {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 10px;
+            background: #3498db;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 4px 4px 8px rgb(163, 177, 198), -4px -4px 8px rgba(255, 255, 255, 0.7);
+        }
+        .play-btn:active { box-shadow: inset 3px 3px 6px rgba(0,0,0,0.2); }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        
+        <!-- वॉलेट और प्रोफाइल हेडर -->
+        <div class="header-card">
+            <div>
+                <h3 style="margin: 0; color: #2c3e50;">नमस्ते, प्लेयर!</h3>
+                <small style="color: #666;">ऑनलाइन बैटल लॉबी</small>
+            </div>
+            <div class="wallet-box">
+                💰 ₹<span id="user-balance">200</span>
+            </div>
+        </div>
+
+        <!-- डिपॉजिट और विड्रॉल -->
+        <div class="action-row">
+            <button class="action-btn btn-deposit" onclick="alert('डिपॉजिट गेटवे जल्द खुलेगा')">+ डिपॉजिट</button>
+            <button class="action-btn btn-withdraw" onclick="alert('विड्रॉल रिक्वेस्ट पेज जल्द खुलेगा')">↑ विड्रॉल</button>
+        </div>
+
+        <!-- गेम होल्ड अलर्ट -->
+        <div id="game-alert" class="alert-box">
+            ⚠️ एक गेम चालू है! रिजल्ट अपडेट होने तक नया मैच नहीं लगा सकते।
+        </div>
+
+        <h4 style="margin: 8px 0 2px 4px; color: #2c3e50;">लाइव लूडो बैटल</h4>
+
+        <!-- ₹50 टेबल -->
+        <div class="battle-card">
+            <div>
+                <strong>एंट्री: ₹50</strong><br>
+                <span class="prize-tag">विनिंग: ₹97.5 (5% कमीशन कटकर)</span>
+            </div>
+            <button class="play-btn" onclick="joinBattle(50, 97.5)">जॉइन</button>
+        </div>
+
+        <!-- ₹100 टेबल -->
+        <div class="battle-card">
+            <div>
+                <strong>एंट्री: ₹100</strong><br>
+                <span class="prize-tag">विनिंग: ₹195 (5% कमीशन कटकर)</span>
+            </div>
+            <button class="play-btn" onclick="joinBattle(100, 195)">जॉइन</button>
+        </div>
+
+        <!-- ₹200 टेबल -->
+        <div class="battle-card">
+            <div>
+                <strong>एंट्री: ₹200</strong><br>
+                <span class="prize-tag">विनिंग: ₹390 (5% कमीशन कटकर)</span>
+            </div>
+            <button class="play-btn" onclick="joinBattle(200, 390)">जॉइन</button>
+        </div>
+
+        <!-- लॉगआउट -->
+        <button class="action-btn" onclick="window.location.href='index.html'" style="margin-top: 15px; color: #e74c3c; background: #e4ebf5;">
+            🚪 लॉगआउट करें
+        </button>
+
+    </div>
+
+    <script>
+        var currentBalance = 200;
+        var isGameActive = false;
+
+        function joinBattle(entryFee, prizeAmount) {
+            if (isGameActive) {
+                alert("⚠️ आपका एक गेम पहले से चल रहा है! उसका फैसला होने के बाद ही नया गेम लगा सकते हैं।");
+                return;
+            }
+
+            if (currentBalance < entryFee) {
+                alert("❌ अपर्याप्त बैलेंस! कृपया पहले वॉलेट रिचार्ज करें।");
+                return;
+            }
+
+            currentBalance -= entryFee;
+            document.getElementById("user-balance").innerText = currentBalance;
+            isGameActive = true;
+            document.getElementById("game-alert").style.display = "block";
+
+            alert("✅ ₹" + entryFee + " कट गए हैं और होल्ड पर हैं। मैच लग चुका है! विनिंग प्राइज: ₹" + prizeAmount);
+        }
+    </script>
+
+</body>
+</html>
+
