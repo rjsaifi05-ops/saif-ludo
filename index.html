@@ -218,6 +218,35 @@
             outline: none;
         }
         .input-field:focus { border-color: #0284c7; }
+
+        /* जन्मतिथि इनपुट कंटेनर */
+        .dob-wrapper {
+            position: relative;
+            margin-bottom: 12px;
+        }
+        .dob-wrapper .input-field {
+            margin-bottom: 0;
+            padding-right: 44px;
+        }
+        .dob-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 19px;
+            pointer-events: none;
+        }
+        .native-dob-trigger {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 32px;
+            height: 32px;
+            opacity: 0;
+            cursor: pointer;
+        }
+
         .submit-btn {
             width: 100%;
             background: #0284c7;
@@ -228,6 +257,7 @@
             font-size: 16px;
             font-weight: 700;
             cursor: pointer;
+            margin-top: 4px;
         }
         .close-btn {
             position: absolute;
@@ -254,7 +284,7 @@
             <span class="badge">आधिकारिक Saif Ludo</span>
             <div class="hero-title">लूडो खेलें,<br><span>असली कैश जीतें</span></div>
             <div class="hero-notice">
-                📢 <strong>सूचना:</strong> सभी प्लेयर्स से निवेदन है कि केवल <strong>saifludo.in</strong> ही हमारी आधिकारिक वेबसाइट है। किसी अन्य फेक लिंक पर पैसे डिपॉजिट न करें।
+                📢 <strong>सूचना:</strong> सभी प्लेयर्स से निवेदन है कि केवल <strong>saifludo.in</strong> ही हमारी आधिकारिक वेबसाइट है। किसी अन्य लिंक पर पैसे डिपॉजिट न करें।
             </div>
 
             <!-- फीचर्स -->
@@ -311,10 +341,17 @@
             <!-- चरण 2: नया यूजर फॉर्म -->
             <div id="step-details" style="display: none;">
                 <div class="modal-title">प्रोफाइल पूरी करें</div>
-                <div class="modal-subtitle">नए यूजर के लिए विवरण आवश्यक है।</div>
+                <div class="modal-subtitle">नए प्लेयर के लिए विवरण आवश्यक है।</div>
 
-                <input type="text" id="user-name" class="input-field" placeholder="पूरा नाम">
-                <input type="date" id="user-dob" class="input-field">
+                <input type="text" id="user-name" class="input-field" placeholder="पूरा नाम दर्ज करें">
+                
+                <!-- ऑटो-फॉर्मेट और कैलेंडर वाला जन्मतिथि बॉक्स -->
+                <div class="dob-wrapper">
+                    <input type="text" id="user-dob" class="input-field" placeholder="जन्म तिथि दर्ज करें (DD/MM/YYYY)" maxlength="10">
+                    <input type="date" id="native-dob-picker" class="native-dob-trigger" title="कैलेंडर से चुनें">
+                    <span class="dob-icon">📅</span>
+                </div>
+
                 <button class="submit-btn" onclick="sendMockOTP()">ओटीपी प्राप्त करें</button>
             </div>
 
@@ -336,7 +373,33 @@
             if (loginExpiry && new Date().getTime() < parseInt(loginExpiry)) {
                 window.location.href = "home.html";
             }
+
+            // कैलेंडर में आज के बाद की भविष्य की तारीख ब्लॉक करना (max = today)
+            var todayStr = new Date().toISOString().split('T')[0];
+            var picker = document.getElementById("native-dob-picker");
+            if(picker) {
+                picker.setAttribute("max", todayStr);
+            }
         };
+
+        // कैलेंडर से तारीख चुनने पर DD/MM/YYYY में कन्वर्ट करना
+        document.getElementById("native-dob-picker").addEventListener("change", function() {
+            if (!this.value) return;
+            var parts = this.value.split('-'); // YYYY-MM-DD
+            document.getElementById("user-dob").value = parts[2] + '/' + parts[1] + '/' + parts[0];
+        });
+
+        // टाइप करते समय ऑटोमैटिक स्लैश (/) लगाना
+        document.getElementById("user-dob").addEventListener("input", function(e) {
+            var val = this.value.replace(/\D/g, '').slice(0, 8); // केवल नंबर
+            if (val.length >= 5) {
+                this.value = val.slice(0, 2) + '/' + val.slice(2, 4) + '/' + val.slice(4);
+            } else if (val.length >= 3) {
+                this.value = val.slice(0, 2) + '/' + val.slice(2);
+            } else {
+                this.value = val;
+            }
+        });
 
         var currentMode = "smart";
         var existingDatabaseNumbers = ["9876543210", "9999999999"];
@@ -398,11 +461,37 @@
         }
 
         function sendMockOTP() {
-            var name = document.getElementById("user-name").value;
-            if (document.getElementById("step-details").style.display === "block" && !name) {
-                alert("कृपया अपना नाम दर्ज करें।");
+            var name = document.getElementById("user-name").value.trim();
+            var dob = document.getElementById("user-dob").value.trim();
+
+            if (!name) {
+                alert("कृपया अपना पूरा नाम दर्ज करें।");
                 return;
             }
+
+            if (!dob || dob.length !== 10) {
+                alert("कृपया सही जन्म तिथि दर्ज करें (उदा. 15/08/2000)।");
+                return;
+            }
+
+            // जन्मतिथि की वैधता और भविष्य की तारीख की जाँच
+            var parts = dob.split('/');
+            var day = parseInt(parts[0], 10);
+            var month = parseInt(parts[1], 10) - 1;
+            var year = parseInt(parts[2], 10);
+            var chosenDate = new Date(year, month, day);
+            var today = new Date();
+
+            if (isNaN(chosenDate.getTime()) || day < 1 || day > 31 || month < 0 || month > 11) {
+                alert("⚠️ दर्ज की गई जन्म तिथि अमान्य है!");
+                return;
+            }
+
+            if (chosenDate > today) {
+                alert("⚠️ अमान्य जन्म तिथि! आप आज या भविष्य की तारीख नहीं चुन सकते।");
+                return;
+            }
+
             alert("ओटीपी भेज दिया गया है!");
             document.getElementById("step-number").style.display = "none";
             document.getElementById("step-details").style.display = "none";
@@ -426,3 +515,4 @@
 
 </body>
 </html>
+
