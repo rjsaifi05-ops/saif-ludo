@@ -13,40 +13,42 @@ body{background:#f4f8fd;color:#0f172a;padding-bottom:85px;overflow-x:hidden}
 .chip{display:flex;align-items:center;gap:5px;padding:6px 12px;border-radius:20px;font-size:13px;font-weight:800;border:none}
 .chip-w{background:#10b981;color:#fff}.chip-c{background:#f97316;color:#fff}
 
-.container{padding:16px;max-width:460px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.container{padding:16px;max-width:460px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
 
 .top-meta{margin-bottom:2px}
 .sub-badge{font-size:11px;font-weight:800;letter-spacing:1px;color:#16a34a;text-transform:uppercase}
-.main-title{font-size:26px;font-weight:900;color:#050b17;letter-spacing:-0.5px}
+.main-title{font-size:24px;font-weight:900;color:#050b17;letter-spacing:-0.5px}
 
-/* बैलेंस कार्ड */
-.bal-card{background:linear-gradient(135deg,#064e3b,#047857);color:#fff;border-radius:20px;padding:18px;box-shadow:0 8px 20px rgba(4,120,87,0.3)}
-.bal-lbl{font-size:12px;font-weight:700;opacity:0.9}
-.bal-val{font-size:32px;font-weight:900;margin-top:2px}
+/* विनिंग vs डिपॉजिट कार्ड्स */
+.bal-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.win-card{background:linear-gradient(135deg,#064e3b,#047857);color:#fff;border-radius:18px;padding:14px;box-shadow:0 6px 16px rgba(4,120,87,0.25)}
+.dep-card{background:#ffffff;border:1.5px solid #e2e8f0;border-radius:18px;padding:14px}
+.b-title{font-size:11px;font-weight:800;opacity:0.9;text-transform:uppercase}
+.b-val{font-size:22px;font-weight:900;margin-top:2px}
+.b-sub{font-size:10px;font-weight:700;margin-top:2px}
 
 /* अमाउंट इनपुट */
-.card{background:#ffffff;border-radius:22px;padding:18px;border:1.5px solid #e0e7ff;box-shadow:0 6px 18px rgba(0,0,0,0.03)}
+.card{background:#ffffff;border-radius:20px;padding:16px;border:1.5px solid #e0e7ff;box-shadow:0 4px 14px rgba(0,0,0,0.02)}
 .field-label{font-size:11px;font-weight:800;color:#64748b;letter-spacing:0.8px;margin-bottom:8px;text-transform:uppercase}
 .input-wrap{display:flex;align-items:center;background:#f8fafc;border:2px solid #cbd5e1;border-radius:16px;padding:12px 14px}
 .input-wrap:focus-within{border-color:#16a34a;background:#fff}
-.curr-sym{width:36px;height:36px;background:#16a34a;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;margin-right:10px}
-.num-input{border:none;background:transparent;font-size:22px;font-weight:900;outline:none;width:100%;color:#0f172a}
-.chips-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
-.chip-btn{background:#f1f5f9;border:1px solid #cbd5e1;padding:10px;border-radius:12px;font-weight:800;font-size:13px;cursor:pointer}
+.curr-sym{width:34px;height:34px;background:#16a34a;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:900;margin-right:10px}
+.num-input{border:none;background:transparent;font-size:20px;font-weight:900;outline:none;width:100%;color:#0f172a}
+.chips-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
+.chip-btn{background:#f1f5f9;border:1px solid #cbd5e1;padding:8px;border-radius:10px;font-weight:800;font-size:12px;cursor:pointer}
 
 /* मेथड कार्ड्स */
-.method-box{background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:18px;padding:14px;margin-bottom:12px}
-.method-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-.method-name{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:800}
-.lock-tag{background:#fee2e2;color:#ef4444;font-size:10px;font-weight:900;padding:3px 8px;border-radius:6px;display:none}
+.method-box{background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:16px;padding:12px;margin-bottom:10px}
+.method-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.method-name{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800}
+.lock-tag{background:#fee2e2;color:#ef4444;font-size:10px;font-weight:900;padding:2px 8px;border-radius:6px;display:none}
 .lock-tag.active{display:inline-block}
 
-.form-input{width:100%;padding:11px 13px;border:1.5px solid #cbd5e1;border-radius:12px;font-size:14px;font-weight:700;outline:none;margin-bottom:8px;background:#fff}
+.form-input{width:100%;padding:10px 12px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:13px;font-weight:700;outline:none;margin-bottom:6px;background:#fff}
 .form-input:disabled{background:#f1f5f9;color:#64748b;border-color:#e2e8f0;cursor:not-allowed}
-.btn-save-lock{background:#0284c7;color:#fff;border:none;padding:9px 16px;border-radius:10px;font-size:12px;font-weight:800;cursor:pointer;width:100%}
+.btn-save-lock{background:#0284c7;color:#fff;border:none;padding:8px 14px;border-radius:8px;font-size:12px;font-weight:800;cursor:pointer;width:100%}
 
-/* विड्रॉ बटन */
-.btn-withdraw-main{background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;border:none;padding:16px;border-radius:20px;font-size:17px;font-weight:900;cursor:pointer;width:100%;box-shadow:0 8px 20px rgba(22,163,74,0.35)}
+.btn-withdraw-main{background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;border:none;padding:15px;border-radius:18px;font-size:16px;font-weight:900;cursor:pointer;width:100%;box-shadow:0 6px 18px rgba(22,163,74,0.35)}
 .btn-withdraw-main:active{transform:scale(0.97)}
 
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:70px;background:#fff;display:flex;justify-content:space-around;align-items:center;border-top:1px solid #e2e8f0;max-width:500px;margin:0 auto;z-index:100}
@@ -75,10 +77,18 @@ body{background:#f4f8fd;color:#0f172a;padding-bottom:85px;overflow-x:hidden}
     <h1 class="main-title">Withdraw Cash</h1>
   </div>
 
-  <!-- वॉलेट बैलेंस कार्ड -->
-  <div class="bal-card">
-    <div class="bal-lbl">कुल उपलब्ध बैलेंस</div>
-    <div class="bal-val">₹ <span id="avail-bal">0</span></div>
+  <!-- बैलेंस स्प्लिट ग्रिड (विनिंग्स vs डिपॉजिट) -->
+  <div class="bal-grid">
+    <div class="win-card">
+      <div class="b-title">विड्रॉल बैलेंस (Winnings)</div>
+      <div class="b-val">₹ <span id="win-bal">0</span></div>
+      <div class="b-sub" style="color:#bbf7d0">✓ सीधे निकाल सकते हैं</div>
+    </div>
+    <div class="dep-card">
+      <div class="b-title" style="color:#64748b">डिपॉजिट (Deposit)</div>
+      <div class="b-val" style="color:#0f172a">₹ <span id="dep-bal">0</span></div>
+      <div class="b-sub" style="color:#ef4444">⚠️ गेम खेलने के लिए</div>
+    </div>
   </div>
 
   <!-- विड्रॉल अमाउंट बॉक्स -->
@@ -97,14 +107,14 @@ body{background:#f4f8fd;color:#0f172a;padding-bottom:85px;overflow-x:hidden}
     </div>
   </div>
 
-  <!-- पेमेंट माध्यम (Permanent Lock System) -->
+  <!-- पेमेंट माध्यम (Permanent Lock) -->
   <div class="card">
-    <div class="field-label">विड्रॉल प्राप्त करने का माध्यम (एक बार डालकर लॉक करें)</div>
-    <p style="font-size:12px;color:#ef4444;font-weight:700;margin-bottom:12px">
-      ⚠️ ध्यान दें: जो डिटेल आप एक बार सेव कर देंगे वो दोबारा यहाँ से एडिट नहीं होगी।
+    <div class="field-label">भुगतान माध्यम (स्थायी लॉक)</div>
+    <p style="font-size:11px;color:#ef4444;font-weight:700;margin-bottom:10px">
+      ⚠️ जो जानकारी आप लॉक करेंगे वो दोबारा आप नहीं बदल सकते (केवल एडमिन से बदलवा सकते हैं)।
     </p>
 
-    <!-- 1. UPI ID ऑप्शन -->
+    <!-- 1. UPI ID -->
     <div class="method-box">
       <div class="method-head">
         <label class="method-name">
@@ -116,7 +126,7 @@ body{background:#f4f8fd;color:#0f172a;padding-bottom:85px;overflow-x:hidden}
       <button class="btn-save-lock" id="btn-lock-upi" onclick="lockField('UPI')">🔒 Save & Permanent Lock</button>
     </div>
 
-    <!-- 2. बैंक अकाउंट ऑप्शन -->
+    <!-- 2. बैंक अकाउंट -->
     <div class="method-box">
       <div class="method-head">
         <label class="method-name">
@@ -130,7 +140,7 @@ body{background:#f4f8fd;color:#0f172a;padding-bottom:85px;overflow-x:hidden}
       <button class="btn-save-lock" id="btn-lock-bank" onclick="lockField('BANK')">🔒 Save & Permanent Lock</button>
     </div>
 
-    <!-- 3. QR कोड ऑप्शन -->
+    <!-- 3. QR कोड -->
     <div class="method-box">
       <div class="method-head">
         <label class="method-name">
@@ -139,7 +149,7 @@ body{background:#f4f8fd;color:#0f172a;padding-bottom:85px;overflow-x:hidden}
         <span class="lock-tag" id="lock-qr-tag">🔒 LOCKED</span>
       </div>
       <input type="file" id="qr-file" accept="image/*" class="form-input">
-      <img id="qr-preview" style="width:100%;max-height:160px;object-fit:contain;display:none;margin-bottom:8px;border-radius:10px" alt="Saved QR">
+      <img id="qr-preview" style="width:100%;max-height:150px;object-fit:contain;display:none;margin-bottom:6px;border-radius:10px" alt="Saved QR">
       <button class="btn-save-lock" id="btn-lock-qr" onclick="lockField('QR')">🔒 Save & Permanent Lock</button>
     </div>
   </div>
@@ -148,7 +158,6 @@ body{background:#f4f8fd;color:#0f172a;padding-bottom:85px;overflow-x:hidden}
 
 </div>
 
-<!-- बॉटम नेविगेशन बार -->
 <nav class="bottom-nav">
   <button class="nav-item" onclick="window.location.href='home.html'">
     <div class="nav-icon" style="background:#e0f2fe;color:#0284c7">🏠</div>
@@ -170,13 +179,20 @@ body{background:#f4f8fd;color:#0f172a;padding-bottom:85px;overflow-x:hidden}
 
 <script>
 window.onload = function() {
-  var bal = localStorage.getItem("main_balance") || "0";
-  document.getElementById("w-bal").innerText = bal;
-  document.getElementById("avail-bal").innerText = bal;
-  document.getElementById("c-bal").innerText = localStorage.getItem("ref_balance") || "0";
-
+  refreshBalances();
   loadLockedDetails();
 };
+
+function refreshBalances() {
+  var win = parseInt(localStorage.getItem("winning_balance") || "0");
+  var dep = parseInt(localStorage.getItem("deposit_balance") || "0");
+  var total = win + dep;
+
+  document.getElementById("win-bal").innerText = win;
+  document.getElementById("dep-bal").innerText = dep;
+  document.getElementById("w-bal").innerText = total;
+  document.getElementById("c-bal").innerText = localStorage.getItem("ref_balance") || "0";
+}
 
 function setAmt(val) {
   document.getElementById("withdraw-amt").value = val;
@@ -219,11 +235,8 @@ function lockField(type) {
 
   if (type === 'UPI') {
     var val = document.getElementById("upi-val").value.trim();
-    if (!val || !val.includes("@")) {
-      alert("⚠️ कृपया सही UPI ID दर्ज करें (उदा. username@paytm)");
-      return;
-    }
-    if (confirm("⚠️ क्या आप सुनिश्चित हैं? यह UPI ID (" + val + ") स्थायी रूप से लॉक हो जाएगी और दोबारा बदली नहीं जा सकेगी।")) {
+    if (!val || !val.includes("@")) { alert("⚠️ कृपया सही UPI ID दर्ज करें।"); return; }
+    if (confirm("⚠️ क्या आप सुनिश्चित हैं? यह UPI ID हमेशा के लिए लॉक हो जाएगी।")) {
       savedData.upi = val;
       localStorage.setItem("permanent_payout_details", JSON.stringify(savedData));
       loadLockedDetails();
@@ -235,32 +248,25 @@ function lockField(type) {
     var h = document.getElementById("bank-holder").value.trim();
     var a = document.getElementById("bank-acc").value.trim();
     var i = document.getElementById("bank-ifsc").value.trim();
-
-    if (!h || !a || !i) {
-      alert("⚠️ कृपया बैंक का पूरा विवरण भरें।");
-      return;
-    }
-    if (confirm("⚠️ क्या आप सुनिश्चित हैं? बैंक खाता (" + a + ") लॉक हो जाएगा।")) {
+    if (!h || !a || !i) { alert("⚠️ कृपया बैंक का पूरा विवरण भरें।"); return; }
+    if (confirm("⚠️ क्या आप सुनिश्चित हैं? यह बैंक खाता हमेशा के लिए लॉक हो जाएगा।")) {
       savedData.bank = { holder: h, acc: a, ifsc: i };
       localStorage.setItem("permanent_payout_details", JSON.stringify(savedData));
       loadLockedDetails();
-      alert("🔒 आपका बैंक खाता सुरक्षित रूप से लॉक कर दिया गया है!");
+      alert("🔒 आपका बैंक खाता लॉक कर दिया गया है!");
     }
   }
 
   if (type === 'QR') {
     var f = document.getElementById("qr-file");
-    if (!f.files || f.files.length === 0) {
-      alert("⚠️ कृपया अपना QR कोड फोटो चुनें।");
-      return;
-    }
+    if (!f.files || f.files.length === 0) { alert("⚠️ कृपया अपना QR कोड फोटो चुनें।"); return; }
     if (confirm("⚠️ क्या आप सुनिश्चित हैं? यह QR कोड लॉक हो जाएगा।")) {
       var reader = new FileReader();
       reader.onload = function(e) {
         savedData.qr = e.target.result;
         localStorage.setItem("permanent_payout_details", JSON.stringify(savedData));
         loadLockedDetails();
-        alert("🔒 आपका QR कोड सुरक्षित रूप से लॉक कर दिया गया है!");
+        alert("🔒 आपका QR कोड लॉक कर दिया गया है!");
       };
       reader.readAsDataURL(f.files[0]);
     }
@@ -270,17 +276,22 @@ function lockField(type) {
 function submitWithdraw() {
   var amt = parseInt(document.getElementById("withdraw-amt").value);
 
+  // 1. मिनिमम ₹100 की जांच
   if (isNaN(amt) || amt < 100) {
-    alert("⚠️ न्यूनतम विड्रॉल ₹100 है। कृपया ₹100 या उससे अधिक अमाउंट दर्ज करें।");
+    alert("⚠️ न्यूनतम विड्रॉल सीमा ₹100 है।");
     return;
   }
 
-  var currentBal = parseInt(localStorage.getItem("main_balance") || "0");
-  if (currentBal < amt) {
-    alert("❌ अपर्याप्त बैलेंस!\n\nआपके वॉलेट में केवल ₹" + currentBal + " हैं।");
+  // 2. केवल WINNING BALANCE की जांच (डिपॉजिट से विड्रॉल ब्लॉक)
+  var winBal = parseInt(localStorage.getItem("winning_balance") || "0");
+  var depBal = parseInt(localStorage.getItem("deposit_balance") || "0");
+
+  if (winBal < amt) {
+    alert("❌ अपर्याप्त विनिंग बैलेंस!\n\nआप केवल जीती हुई राशि (Winnings: ₹" + winBal + ") ही विड्रॉल कर सकते हैं।\n\nडिपॉजिट बैलेंस (₹" + depBal + ") को निकालने के लिए आपको पहले उससे लूडो गेम खेलना होगा!");
     return;
   }
 
+  // 3. पेमेंट मेथड चेक
   var choice = document.querySelector('input[name="payout_choice"]:checked').value;
   var savedData = JSON.parse(localStorage.getItem("permanent_payout_details") || "{}");
   var payoutInfo = "";
@@ -297,8 +308,10 @@ function submitWithdraw() {
   }
 
   if (confirm("क्या आप ₹" + amt + " का विड्रॉल (" + choice + ") पर लगाना चाहते हैं?")) {
-    currentBal -= amt;
-    localStorage.setItem("main_balance", currentBal);
+    // केवल विनिंग बैलेंस से कटौती होगी
+    winBal -= amt;
+    localStorage.setItem("winning_balance", winBal);
+    localStorage.setItem("main_balance", winBal + depBal);
 
     var allWithdraws = JSON.parse(localStorage.getItem("withdraw_requests") || "[]");
     allWithdraws.unshift({
@@ -313,10 +326,11 @@ function submitWithdraw() {
     });
     localStorage.setItem("withdraw_requests", JSON.stringify(allWithdraws));
 
-    alert("✅ विड्रॉल रिक्वेस्ट सबमिट हो गई! मात्र 2 से 5 मिनट में आपके खाते में पैसे भेज दिए जाएंगे।");
+    alert("✅ विड्रॉल रिक्वेस्ट सबमिट हो गई! एडमिन द्वारा वेरिफिकेशन के बाद पैसे आपके खाते में भेज दिए जाएंगे।");
     window.location.href = "home.html";
   }
 }
 </script>
 </body>
 </html>
+
