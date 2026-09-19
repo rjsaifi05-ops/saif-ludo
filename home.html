@@ -218,6 +218,65 @@ function installPWA() {
   toggleMenu(false);
   alert("Chrome ke upar 3 dots (⋮) par tap karke 'Add to Home screen' chunein.");
 }
+  // हिस्ट्री लोड करने का लाइव फंक्शन
+function loadTransactionHistory() {
+  var historySec = document.getElementById("v-history");
+  if (!historySec) return;
+
+  var deposits = JSON.parse(localStorage.getItem("deposit_requests") || "[]");
+  var withdraws = JSON.parse(localStorage.getItem("withdraw_requests") || "[]");
+  var allTx = deposits.concat(withdraws);
+
+  if (allTx.length === 0) {
+    historySec.innerHTML = `<div style="text-align:center;padding:50px 20px;color:#94a3b8">
+      <div style="font-size:40px;margin-bottom:8px">📜</div>
+      <b>कोई ट्रांजेक्शन नहीं मिली</b>
+      <p style="font-size:12px;margin-top:4px">आपकी सभी डिपॉजिट और विड्रॉल यहाँ दिखेंगी।</p>
+    </div>`;
+    return;
+  }
+
+  var html = `<div style="padding:16px;max-width:460px;margin:0 auto"><h2 style="font-size:20px;font-weight:900;margin-bottom:14px">ट्रांजेक्शन हिस्ट्री</h2>`;
+
+  allTx.forEach(function(tx) {
+    var isDep = tx.id && tx.id.startsWith("REQ");
+    var statusBadge = "";
+
+    if (tx.status === "PENDING") {
+      statusBadge = `<span style="background:#fef3c7;color:#b45309;padding:4px 8px;border-radius:6px;font-size:11px;font-weight:900">⏳ पेंडिंग (प्रतीक्षा करें)</span>`;
+    } else if (tx.status === "SUCCESS" || tx.status === "PAID") {
+      statusBadge = `<span style="background:#dcfce7;color:#15803d;padding:4px 8px;border-radius:6px;font-size:11px;font-weight:900">✓ सफल (क्रेडिटेड)</span>`;
+    } else {
+      statusBadge = `<span style="background:#fee2e2;color:#b91c1c;padding:4px 8px;border-radius:6px;font-size:11px;font-weight:900">✗ अस्वीकृत (Rejected)</span>`;
+    }
+
+    html += `
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:0 3px 10px rgba(0,0,0,0.03)">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <b style="font-size:14px">${isDep ? '➕ डिपॉजिट (Add Cash)' : '💵 विड्रॉल (Withdraw)'}</b>
+          ${statusBadge}
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:20px;font-weight:900;color:${isDep ? '#0284c7' : '#16a34a'}">₹ ${tx.amount}</span>
+          <span style="font-size:11px;color:#94a3b8">⏰ ${tx.time || ''}</span>
+        </div>
+        ${tx.utr ? `<div style="font-size:11px;color:#64748b;margin-top:4px">UTR: <b>${tx.utr}</b></div>` : ''}
+      </div>
+    `;
+  });
+
+  html += `</div>`;
+  historySec.innerHTML = html;
+}
+
+// जब भी हिस्ट्री टैब खुले तो अपने आप लोड हो
+var oldGo = go;
+go = function(sec) {
+  oldGo(sec);
+  if (sec === 'history') {
+    loadTransactionHistory();
+  }
+};
 </script>
 </body>
 </html>
