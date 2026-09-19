@@ -10,7 +10,7 @@ body{background:#0b132b;color:#f8fafc;padding:16px;padding-bottom:60px}
 
 /* लॉगिन पिन स्क्रीन */
 #pin-screen{background:#1c2541;border-radius:20px;padding:30px 20px;text-align:center;margin-top:50px;border:1px solid #334155}
-.pin-input{font-size:24px;letter-spacing:8px;text-align:center;padding:12px;width:180px;border-radius:12px;border:2px solid #0284c7;background:#0f172a;color:#fff;outline:none;margin:16px 0}
+.pin-input{font-size:22px;letter-spacing:6px;text-align:center;padding:12px;width:200px;border-radius:12px;border:2px solid #0284c7;background:#0f172a;color:#fff;outline:none;margin:16px 0}
 
 /* हेडर */
 .header{display:flex;justify-content:space-between;align-items:center;padding-bottom:14px;border-bottom:1px solid #1c2541;margin-bottom:16px}
@@ -34,6 +34,10 @@ body{background:#0b132b;color:#f8fafc;padding:16px;padding-bottom:60px}
 .lbl{font-size:11px;font-weight:800;color:#94a3b8;margin:8px 0 4px;text-transform:uppercase}
 .inp{width:100%;padding:10px 12px;border-radius:10px;border:1px solid #334155;background:#0f172a;color:#fff;font-size:14px;outline:none;margin-bottom:8px}
 
+/* यूजर लिस्ट टेबल / कार्ड */
+.user-item{background:#0f172a;border:1px solid #334155;border-radius:12px;padding:12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.sel-box{background:#0284c715;border:1.5px solid #0284c7;border-radius:16px;padding:14px;margin-bottom:14px}
+
 .kyc-img-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
 .kyc-img-box img{width:100%;height:120px;object-fit:cover;border-radius:8px;border:1px solid #334155}
 </style>
@@ -42,13 +46,13 @@ body{background:#0b132b;color:#f8fafc;padding:16px;padding-bottom:60px}
 
 <div class="container">
 
-  <!-- सुरक्षा पिन स्क्रीन (डिफ़ॉल्ट पिन: 1122) -->
+  <!-- सुरक्षा पिन स्क्रीन -->
   <div id="pin-screen">
     <div style="font-size:40px;margin-bottom:8px">🔐</div>
     <h2 style="font-size:20px;font-weight:900">Saif Ludo Admin Access</h2>
-    <p style="font-size:12px;color:#94a3b8;margin-top:4px">कृपया 4-अंकों का एडमिन सुरक्षा पिन दर्ज करें</p>
+    <p style="font-size:12px;color:#94a3b8;margin-top:4px">एडमिन पासवर्ड / पिन दर्ज करें</p>
     <input type="password" id="admin-pin" class="pin-input" maxlength="20" placeholder="••••"><br>
-    <button class="btn-blue" style="width:180px" onclick="checkPin()">लॉगिन करें</button>
+    <button class="btn-blue" style="width:200px" onclick="checkPin()">लॉगिन करें</button>
   </div>
 
   <!-- मुख्य एडमिन डैशबोर्ड -->
@@ -87,68 +91,89 @@ body{background:#0b132b;color:#f8fafc;padding:16px;padding-bottom:60px}
       <div id="kyc-details-card"></div>
     </div>
 
-    <!-- 4. यूजर कंट्रोल (बैलेंस काटना, ब्लॉक/अनब्लॉक, अकाउंट डिलीट, पेमेंट चेंज) -->
+    <!-- 4. यूजर कंट्रोल (स्पेसिफिक यूजर सर्च, सेलेक्ट, बैलेंस काटना/जोड़ना, ब्लॉक, डिलीट) -->
     <div id="sec-user" style="display:none">
 
-      <!-- बैलेंस काटना या जोड़ना -->
+      <!-- सर्च बार -->
       <div class="card">
-        <h3 style="font-size:15px;font-weight:900;color:#38bdf8;margin-bottom:6px">💰 वॉलेट बैलेंस कंट्रोल (काटना / जोड़ना)</h3>
-        <p style="font-size:12px;color:#94a3b8;margin-bottom:12px">बिना यूजर के विड्रॉल लगाए भी आप यहाँ से बैलेंस सीधे घटा या बढ़ा सकते हैं।</p>
+        <h3 style="font-size:15px;font-weight:900;color:#38bdf8;margin-bottom:6px">🔍 यूजर खोजें (Search User)</h3>
+        <p style="font-size:12px;color:#94a3b8;margin-bottom:10px">मोबाइल नंबर या नाम डालकर खोजें या नीचे लिस्ट में से चुनें:</p>
+        <div style="display:flex;gap:8px">
+          <input type="text" id="user-search-query" class="inp" style="margin-bottom:0" placeholder="मोबाइल नंबर या नाम दर्ज करें">
+          <button class="btn-blue" style="width:90px" onclick="searchUser()">खोजें</button>
+        </div>
+      </div>
 
+      <!-- चुना हुआ यूजर (Selected Target User Card) -->
+      <div id="target-user-card" class="sel-box" style="display:none">
         <div class="row">
-          <span style="font-size:13px">डिपॉजिट बैलेंस: <b style="color:#38bdf8">₹<span id="vw-dep">0</span></b></span>
-          <span style="font-size:13px">विनिंग बैलेंस: <b style="color:#22c55e">₹<span id="vw-win">0</span></b></span>
+          <div>
+            <b id="sel-u-name" style="font-size:16px;color:#fff">प्लेयर का नाम</b><br>
+            <span id="sel-u-phone" style="font-size:12px;color:#38bdf8">📱 98XXXXXXXX</span>
+          </div>
+          <span id="sel-u-status" class="badge" style="background:#10b981;color:#fff">ACTIVE</span>
         </div>
 
-        <div class="lbl">अमाउंट दर्ज करें:</div>
-        <input type="number" id="manual-amt" class="inp" placeholder="उदा. 100">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0">
+          <div style="background:#0b132b;padding:8px 12px;border-radius:10px">
+            <span style="font-size:11px;color:#94a3b8">डिपॉजिट बैलेंस:</span>
+            <div style="font-size:18px;font-weight:900;color:#38bdf8">₹ <span id="sel-u-dep">0</span></div>
+          </div>
+          <div style="background:#0b132b;padding:8px 12px;border-radius:10px">
+            <span style="font-size:11px;color:#94a3b8">विनिंग बैलेंस:</span>
+            <div style="font-size:18px;font-weight:900;color:#22c55e">₹ <span id="sel-u-win">0</span></div>
+          </div>
+        </div>
 
-        <div class="lbl">किस बैलेंस में बदलाव करना है?</div>
-        <select id="balance-target" class="inp">
-          <option value="winning">विनिंग बैलेंस (Winning Balance)</option>
-          <option value="deposit">डिपॉजिट बैलेंस (Deposit Balance)</option>
-        </select>
+        <!-- 1. इस यूजर का बैलेंस काटना या जोड़ना -->
+        <div class="card" style="background:#0b132b;border:1px solid #1c2541;padding:12px;margin-bottom:10px">
+          <b style="font-size:13px;color:#38bdf8">💰 इस यूजर का बैलेंस बदलें</b>
+          <div class="lbl">अमाउंट दर्ज करें:</div>
+          <input type="number" id="target-amt-input" class="inp" placeholder="उदा. 100">
 
-        <div class="btn-row">
-          <button class="btn-rej" onclick="adjustBalance('CUT')">➖ बैलेंस काटें (Deduct)</button>
-          <button class="btn-app" onclick="adjustBalance('ADD')">➕ बैलेंस जोड़ें (Credit)</button>
+          <div class="lbl">किस बैलेंस में काटना/जोड़ना है:</div>
+          <select id="target-bal-type" class="inp">
+            <option value="winning">विनिंग बैलेंस (Winning Balance)</option>
+            <option value="deposit">डिपॉजिट बैलेंस (Deposit Balance)</option>
+          </select>
+
+          <div class="btn-row">
+            <button class="btn-rej" onclick="applyUserBalance('CUT')">➖ बैलेंस काटें (Deduct)</button>
+            <button class="btn-app" onclick="applyUserBalance('ADD')">➕ बैलेंस जोड़ें (Add)</button>
+          </div>
+        </div>
+
+        <!-- 2. इस यूजर को ब्लॉक / अनब्लॉक करना -->
+        <div class="card" style="background:#0b132b;border:1px solid #1c2541;padding:12px;margin-bottom:10px">
+          <b style="font-size:13px;color:#e11d48">🚫 यूजर स्टेटस (ब्लॉक/अनब्लॉक)</b>
+          <p style="font-size:11px;color:#94a3b8;margin:4px 0 8px">ब्लॉक करने पर यह यूजर कोई गेम या विड्रॉल नहीं कर सकेगा।</p>
+          <button id="btn-user-block" class="btn-rej" onclick="toggleBlockTargetUser()">🚫 इस यूजर को ब्लॉक करें</button>
+        </div>
+
+        <!-- 3. इस यूजर का अकाउंट डिलीट / रिसेट करना -->
+        <div class="card" style="background:#0b132b;border:1px solid #1c2541;padding:12px;margin-bottom:10px">
+          <b style="font-size:13px;color:#ef4444">🗑️ अकाउंट डिलीट (खिलाड़ी अनुरोध पर)</b>
+          <p style="font-size:11px;color:#94a3b8;margin:4px 0 8px">इस यूजर का सारा डेटा, बैलेंस और प्रोफाइल मिट जाएगी और वह फिर से नया खाता बना सकेगा।</p>
+          <button class="btn-danger" onclick="deleteTargetUser()">🗑️ इस यूजर का खाता डिलीट करें</button>
+        </div>
+
+        <!-- 4. इस यूजर की UPI/बैंक डिटेल्स बदलना -->
+        <div class="card" style="background:#0b132b;border:1px solid #1c2541;padding:12px">
+          <b style="font-size:13px;color:#38bdf8">⚙️ इस यूजर की पेमेंट डिटेल्स बदलें</b>
+          <div class="lbl">UPI ID:</div>
+          <input type="text" id="target-upi" class="inp" placeholder="उदा. name@paytm">
+          <div class="lbl">अकाउंट नंबर:</div>
+          <input type="number" id="target-acc" class="inp" placeholder="Account Number">
+          <div class="lbl">IFSC कोड:</div>
+          <input type="text" id="target-ifsc" class="inp" placeholder="IFSC Code">
+          <button class="btn-blue" onclick="saveTargetUserPayout()">💾 पेमेंट विवरण अपडेट करें</button>
         </div>
       </div>
 
-      <!-- ब्लॉक / अनब्लॉक और अकाउंट डिलीट -->
+      <!-- पंजीकृत सभी यूजर्स की सूची (Users List) -->
       <div class="card">
-        <h3 style="font-size:15px;font-weight:900;color:#e11d48;margin-bottom:6px">🚫 यूजर ब्लॉक व अकाउंट डिलीट</h3>
-        
-        <div class="row" style="margin:12px 0">
-          <span style="font-size:13px">अकाउंट स्टेटस:</span>
-          <span id="block-status-badge" class="badge" style="background:#10b981;color:#fff">सक्रिय (ACTIVE)</span>
-        </div>
-
-        <div class="btn-row" style="margin-bottom:14px">
-          <button id="btn-block-toggle" class="btn-rej" onclick="toggleUserBlock()">🚫 यूजर को ब्लॉक करें</button>
-        </div>
-
-        <hr style="border:0;border-top:1px solid #334155;margin:14px 0">
-
-        <div class="lbl">अकाउंट डिलीट (उपयोगकर्ता अनुरोध पर):</div>
-        <p style="font-size:11px;color:#94a3b8;margin-bottom:10px">यह यूजर का वॉलेट, KYC और लॉगिन पूरी तरह साफ़ कर देगा ताकि वह फिर से नया अकाउंट बना सके।</p>
-        <button class="btn-danger" onclick="deleteUserAccount()">🗑️ स्थायी रूप से अकाउंट डिलीट करें (Reset)</button>
-      </div>
-
-      <!-- पेमेंट डिटेल्स में बदलाव -->
-      <div class="card">
-        <h3 style="font-size:15px;font-weight:900;color:#38bdf8;margin-bottom:6px">⚙️ यूजर UPI / बैंक अकाउंट बदलें</h3>
-        <div class="lbl">UPI ID:</div>
-        <input type="text" id="adm-upi" class="inp" placeholder="उदा. user@paytm">
-        <div class="lbl">खाता धारक का नाम:</div>
-        <input type="text" id="adm-holder" class="inp" placeholder="Account Holder Name">
-        <div class="lbl">अकाउंट नंबर:</div>
-        <input type="number" id="adm-acc" class="inp" placeholder="Account Number">
-        <div class="lbl">IFSC कोड:</div>
-        <input type="text" id="adm-ifsc" class="inp" placeholder="IFSC Code">
-
-        <button class="btn-blue" onclick="saveUserDetails()">💾 नई पेमेंट डिटेल्स सेव करें</button>
-        <button class="btn-danger" style="margin-top:8px" onclick="unlockAllDetails()">🔓 सारा डेटा अनलॉक करें</button>
+        <h3 style="font-size:14px;font-weight:900;color:#94a3b8;margin-bottom:10px">📋 सभी रजिस्टर्ड यूजर्स की लिस्ट</h3>
+        <div id="users-directory-list"></div>
       </div>
 
     </div>
@@ -158,8 +183,9 @@ body{background:#0b132b;color:#f8fafc;padding:16px;padding-bottom:60px}
 </div>
 
 <script>
-// डिफ़ॉल्ट एडमिन पिन (आप अपनी मर्जी से इसे 1122 की जगह कुछ भी रख सकते हैं)
-var ADMIN_SECRET_PIN = "Mohd@240869";
+// एडमिन सीक्रेट पिन / पासवर्ड
+var ADMIN_SECRET_PIN = "1122";
+var currentSelectedPhone = null;
 
 function checkPin() {
   var p = document.getElementById("admin-pin").value;
@@ -168,7 +194,7 @@ function checkPin() {
     document.getElementById("admin-dashboard").style.display = "block";
     loadAllData();
   } else {
-    alert("❌ गलत एडमिन पिन! कृपया सही 4 अंकों का पिन दर्ज करें।");
+    alert("❌ गलत एडमिन पासवर्ड! कृपया सही पिन दर्ज करें।");
   }
 }
 
@@ -183,11 +209,230 @@ function loadAllData() {
   loadDeposits();
   loadWithdraws();
   loadKYCRecord();
-  loadUserPayoutData();
-  refreshBalancesView();
+  loadUsersDirectory();
 }
 
-/* ================= 1. डिपॉजिट अप्रूवल ================= */
+/* ================= सभी यूजर्स का डेटाबेस हैंडलर ================= */
+function getUsersDB() {
+  var db = JSON.parse(localStorage.getItem("saif_ludo_all_users") || "{}");
+  
+  // अगर डेटाबेस में एक्टिव यूजर अभी नहीं है, तो उसे ऑटोमैटिक शामिल करें
+  var activePhone = localStorage.getItem("user_phone") || "8569952689";
+  var activeName = localStorage.getItem("user_name") || "Player";
+
+  if (!db[activePhone]) {
+    db[activePhone] = {
+      name: activeName,
+      phone: activePhone,
+      deposit_balance: parseInt(localStorage.getItem("deposit_balance") || "0"),
+      winning_balance: parseInt(localStorage.getItem("winning_balance") || "0"),
+      blocked: localStorage.getItem("user_blocked") === "true",
+      payout: JSON.parse(localStorage.getItem("permanent_payout_details") || "{}")
+    };
+    localStorage.setItem("saif_ludo_all_users", JSON.stringify(db));
+  }
+  return db;
+}
+
+function saveUsersDB(db) {
+  localStorage.setItem("saif_ludo_all_users", JSON.stringify(db));
+  
+  // यदि सेलेक्टेड यूजर वही है जो अभी इस डिवाइस पर एक्टिव है, तो उसका लोकल स्टोरेज भी अपडेट करें
+  if (currentSelectedPhone && currentSelectedPhone === localStorage.getItem("user_phone")) {
+    var u = db[currentSelectedPhone];
+    if(u) {
+      localStorage.setItem("deposit_balance", u.deposit_balance);
+      localStorage.setItem("winning_balance", u.winning_balance);
+      localStorage.setItem("main_balance", u.deposit_balance + u.winning_balance);
+      if(u.blocked) localStorage.setItem("user_blocked", "true");
+      else localStorage.removeItem("user_blocked");
+      localStorage.setItem("permanent_payout_details", JSON.stringify(u.payout || {}));
+    }
+  }
+}
+
+/* ================= यूजर्स डायरेक्टरी लोड करना ================= */
+function loadUsersDirectory() {
+  var container = document.getElementById("users-directory-list");
+  var db = getUsersDB();
+  var phones = Object.keys(db);
+
+  if (phones.length === 0) {
+    container.innerHTML = "<div style='color:#64748b;font-size:12px;text-align:center;padding:14px'>कोई यूजर रजिस्टर नहीं है।</div>";
+    return;
+  }
+
+  container.innerHTML = "";
+  phones.forEach(function(ph) {
+    var u = db[ph];
+    var totalBal = (u.deposit_balance || 0) + (u.winning_balance || 0);
+    var div = document.createElement("div");
+    div.className = "user-item";
+    div.innerHTML = `
+      <div>
+        <b style="font-size:14px;color:#fff">${u.name}</b> ${u.blocked ? '<span style="color:#ef4444;font-size:10px;font-weight:900">[BLOCKED]</span>' : ''}<br>
+        <span style="font-size:12px;color:#94a3b8">📱 ${ph} | कुल: ₹${totalBal}</span>
+      </div>
+      <button onclick="selectUser('${ph}')" style="background:#0284c7;color:#fff;border:none;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:800;cursor:pointer">चुनें ➔</button>
+    `;
+    container.appendChild(div);
+  });
+}
+
+/* ================= किसी खास यूजर को सेलेक्ट करना ================= */
+function selectUser(phone) {
+  var db = getUsersDB();
+  var u = db[phone];
+  if (!u) {
+    alert("यूजर नहीं मिला!");
+    return;
+  }
+
+  currentSelectedPhone = phone;
+  document.getElementById("target-user-card").style.display = "block";
+  document.getElementById("sel-u-name").innerText = u.name;
+  document.getElementById("sel-u-phone").innerText = "📱 " + phone;
+  document.getElementById("sel-u-dep").innerText = u.deposit_balance || 0;
+  document.getElementById("sel-u-win").innerText = u.winning_balance || 0;
+
+  var bBadge = document.getElementById("sel-u-status");
+  var bBtn = document.getElementById("btn-user-block");
+  if (u.blocked) {
+    bBadge.innerText = "ब्लॉक (BLOCKED)";
+    bBadge.style.background = "#e11d48";
+    bBtn.innerText = "🔓 इस यूजर को अनब्लॉक करें";
+    bBtn.className = "btn-app";
+  } else {
+    bBadge.innerText = "सक्रिय (ACTIVE)";
+    bBadge.style.background = "#10b981";
+    bBtn.innerText = "🚫 इस यूजर को ब्लॉक करें";
+    bBtn.className = "btn-rej";
+  }
+
+  // पेमेंट डिटेल्स भरना
+  var pay = u.payout || {};
+  document.getElementById("target-upi").value = pay.upi || "";
+  document.getElementById("target-acc").value = (pay.bank && pay.bank.acc) ? pay.bank.acc : "";
+  document.getElementById("target-ifsc").value = (pay.bank && pay.bank.ifsc) ? pay.bank.ifsc : "";
+
+  window.scrollTo({ top: document.getElementById("target-user-card").offsetTop - 20, behavior: 'smooth' });
+}
+
+function searchUser() {
+  var q = document.getElementById("user-search-query").value.trim().toLowerCase();
+  if(!q) { alert("कृपया मोबाइल नंबर या नाम लिखें!"); return; }
+  var db = getUsersDB();
+  var found = null;
+  for(var ph in db) {
+    if(ph.includes(q) || (db[ph].name && db[ph].name.toLowerCase().includes(q))) {
+      found = ph;
+      break;
+    }
+  }
+  if(found) {
+    selectUser(found);
+  } else {
+    alert("❌ इस नंबर या नाम से कोई यूजर नहीं मिला!");
+  }
+}
+
+/* ================= चुने हुए यूजर का बैलेंस काटना या जोड़ना ================= */
+function applyUserBalance(type) {
+  if (!currentSelectedPhone) return;
+  var amt = parseInt(document.getElementById("target-amt-input").value);
+  var target = document.getElementById("target-bal-type").value;
+
+  if (isNaN(amt) || amt <= 0) {
+    alert("⚠️ कृपया सही अमाउंट दर्ज करें!");
+    return;
+  }
+
+  var db = getUsersDB();
+  var u = db[currentSelectedPhone];
+  var key = (target === "winning") ? "winning_balance" : "deposit_balance";
+  var current = u[key] || 0;
+
+  if (type === "CUT") {
+    if (amt > current) {
+      if(!confirm("यूजर के पास केवल ₹" + current + " हैं। क्या पूरा बैलेंस 0 करना चाहते हैं?")) return;
+      current = 0;
+    } else {
+      current -= amt;
+    }
+    alert("✅ " + u.name + " (" + currentSelectedPhone + ") के खाते से ₹" + amt + " काट लिए गए!");
+  } else {
+    current += amt;
+    alert("✅ " + u.name + " (" + currentSelectedPhone + ") के खाते में ₹" + amt + " जोड़ दिए गए!");
+  }
+
+  u[key] = current;
+  saveUsersDB(db);
+  document.getElementById("target-amt-input").value = "";
+  selectUser(currentSelectedPhone);
+  loadUsersDirectory();
+}
+
+/* ================= चुने हुए यूजर को ब्लॉक/अनब्लॉक करना ================= */
+function toggleBlockTargetUser() {
+  if (!currentSelectedPhone) return;
+  var db = getUsersDB();
+  var u = db[currentSelectedPhone];
+
+  if (!u.blocked) {
+    if (confirm("⚠️ क्या आप " + u.name + " (" + currentSelectedPhone + ") को ब्लॉक करना चाहते हैं?")) {
+      u.blocked = true;
+      alert("🚫 यूजर को ब्लॉक कर दिया गया!");
+    }
+  } else {
+    if (confirm("क्या आप इस यूजर को अनब्लॉक करना चाहते हैं?")) {
+      u.blocked = false;
+      alert("✅ यूजर को अनब्लॉक कर दिया गया!");
+    }
+  }
+  saveUsersDB(db);
+  selectUser(currentSelectedPhone);
+  loadUsersDirectory();
+}
+
+/* ================= चुने हुए यूजर का खाता डिलीट करना ================= */
+function deleteTargetUser() {
+  if (!currentSelectedPhone) return;
+  var db = getUsersDB();
+  var u = db[currentSelectedPhone];
+
+  if (confirm("⚠️ क्या आप वाकई " + u.name + " (" + currentSelectedPhone + ") का पूरा अकाउंट डिलीट करना चाहते हैं? इससे उसका सारा डेटा मिट जाएगा।")) {
+    delete db[currentSelectedPhone];
+    localStorage.setItem("saif_ludo_all_users", JSON.stringify(db));
+
+    if (currentSelectedPhone === localStorage.getItem("user_phone")) {
+      localStorage.clear();
+    }
+
+    alert("🗑️ अकाउंट सफलतापूर्वक डिलीट कर दिया गया!");
+    document.getElementById("target-user-card").style.display = "none";
+    currentSelectedPhone = null;
+    loadUsersDirectory();
+  }
+}
+
+/* ================= चुने हुए यूजर की पेमेंट डिटेल्स सेव करना ================= */
+function saveTargetUserPayout() {
+  if (!currentSelectedPhone) return;
+  var db = getUsersDB();
+  var u = db[currentSelectedPhone];
+  var upi = document.getElementById("target-upi").value.trim();
+  var acc = document.getElementById("target-acc").value.trim();
+  var ifsc = document.getElementById("target-ifsc").value.trim();
+
+  u.payout = u.payout || {};
+  if(upi) u.payout.upi = upi;
+  if(acc) u.payout.bank = { acc: acc, ifsc: ifsc, holder: u.name };
+
+  saveUsersDB(db);
+  alert("✅ " + u.name + " की पेमेंट डिटेल्स अपडेट कर दी गईं!");
+}
+
+/* ================= डिपॉजिट और विड्रॉल लोड ================= */
 function loadDeposits() {
   var list = document.getElementById("deposit-list");
   var reqs = JSON.parse(localStorage.getItem("deposit_requests") || "[]").filter(function(r){ return r.status === "PENDING"; });
@@ -201,218 +446,5 @@ function loadDeposits() {
       <div style="background:#0f172a;padding:8px;border-radius:8px;font-size:13px;font-weight:800;color:#38bdf8;margin:6px 0">UTR: ${r.utr}</div>
       ${r.screenshot ? `<img src="${r.screenshot}" class="ss-preview" onclick="window.open(this.src)">` : ''}
       <div class="btn-row">
-        <button class="btn-app" onclick="actionDeposit('${r.id}', ${r.amount}, true)">✓ Approve (ऐड करें)</button>
-        <button class="btn-rej" onclick="actionDeposit('${r.id}', ${r.amount}, false)">✗ Reject (रद्द करें)</button>
-      </div>`;
-    list.appendChild(d);
-  });
-}
-
-function actionDeposit(id, amt, ok) {
-  var reqs = JSON.parse(localStorage.getItem("deposit_requests") || "[]");
-  reqs.forEach(function(r){ if(r.id === id) r.status = ok ? "SUCCESS" : "REJECTED"; });
-  localStorage.setItem("deposit_requests", JSON.stringify(reqs));
-  if(ok) {
-    var depBal = parseInt(localStorage.getItem("deposit_balance") || "0");
-    localStorage.setItem("deposit_balance", depBal + amt);
-    alert("✅ ₹" + amt + " यूजर के डिपॉजिट वॉलेट में जोड़ दिए गए!");
-  } else { alert("❌ रिक्वेस्ट रिजेक्ट कर दी गई।"); }
-  loadDeposits();
-  refreshBalancesView();
-}
-
-/* ================= 2. विड्रॉल अप्रूवल ================= */
-function loadWithdraws() {
-  var list = document.getElementById("withdraw-list");
-  var reqs = JSON.parse(localStorage.getItem("withdraw_requests") || "[]").filter(function(r){ return r.status === "PENDING"; });
-  if(!reqs.length) { list.innerHTML = "<div style='color:#64748b;text-align:center;padding:20px'>कोई पेंडिंग विड्रॉल नहीं है।</div>"; return; }
-  list.innerHTML = "";
-  reqs.forEach(function(r){
-    var d = document.createElement("div"); d.className = "card";
-    d.innerHTML = `
-      <div class="row"><b>👤 ${r.user}</b><span class="badge badge-wth">WITHDRAW</span></div>
-      <div style="font-size:12px;color:#94a3b8;margin-bottom:4px">KYC नाम: <b>${r.kycName || 'N/A'}</b></div>
-      <div class="row"><b style="font-size:20px;color:#ef4444">₹ ${r.amount}</b><span style="font-size:11px;color:#94a3b8">⏰ ${r.time}</span></div>
-      <div style="background:#0f172a;padding:8px;border-radius:8px;font-size:13px;color:#f8fafc;margin:6px 0"><b>माध्यम:</b> ${r.payoutDetails}</div>
-      ${r.qrImage ? `<div style="font-size:11px;color:#94a3b8;margin-top:4px">यूजर का QR:</div><img src="${r.qrImage}" class="ss-preview" onclick="window.open(this.src)">` : ''}
-      <div class="btn-row">
-        <button class="btn-app" onclick="actionWithdraw('${r.id}', ${r.amount}, true)">✓ Payment Done (स्वीकार)</button>
-        <button class="btn-rej" onclick="actionWithdraw('${r.id}', ${r.amount}, false)">✗ Reject (रिफंड)</button>
-      </div>`;
-    list.appendChild(d);
-  });
-}
-
-function actionWithdraw(id, amt, ok) {
-  var reqs = JSON.parse(localStorage.getItem("withdraw_requests") || "[]");
-  reqs.forEach(function(r){ if(r.id === id) r.status = ok ? "PAID" : "REJECTED"; });
-  localStorage.setItem("withdraw_requests", JSON.stringify(reqs));
-  if(!ok) {
-    var winBal = parseInt(localStorage.getItem("winning_balance") || "0");
-    localStorage.setItem("winning_balance", winBal + amt);
-    alert("❌ विड्रॉल रिजेक्ट हुआ और ₹" + amt + " यूजर के विनिंग बैलेंस में वापस कर दिए गए।");
-  } else { alert("✅ विड्रॉल सफल मार्क किया गया!"); }
-  loadWithdraws();
-  refreshBalancesView();
-}
-
-/* ================= 3. आधार KYC रिकॉर्ड्स ================= */
-function loadKYCRecord() {
-  var wrap = document.getElementById("kyc-details-card");
-  var kyc = JSON.parse(localStorage.getItem("user_kyc_data") || "null");
-  if(!kyc) {
-    wrap.innerHTML = "<div style='color:#64748b;text-align:center;padding:20px'>किसी यूजर ने अभी KYC सबमिट नहीं की है।</div>";
-    return;
-  }
-  wrap.innerHTML = `
-    <div class="card">
-      <div class="row"><b>नाम: ${kyc.name}</b><span class="badge" style="background:#10b981;color:#fff">VERIFIED</span></div>
-      <div style="font-size:13px;color:#94a3b8;margin:4px 0">जन्मतिथि: <b>${kyc.dob}</b></div>
-      <div style="font-size:13px;color:#94a3b8;margin:4px 0">पता: <b>${kyc.address}</b></div>
-      <div class="lbl" style="margin-top:10px">आधार कार्ड फोटो (Front व Back - टैप करके बड़ा देखें):</div>
-      <div class="kyc-img-grid">
-        <div class="kyc-img-box"><img src="${kyc.frontPhoto}" onclick="window.open(this.src)"></div>
-        <div class="kyc-img-box"><img src="${kyc.backPhoto}" onclick="window.open(this.src)"></div>
-      </div>
-      <button class="btn-rej" style="width:100%;margin-top:10px" onclick="resetUserKYC()">✗ KYC रिजेक्ट / रिसेट करें</button>
-    </div>
-  `;
-}
-
-function resetUserKYC() {
-  if(confirm("क्या आप इस यूजर की KYC हटाना चाहते हैं? यूजर को फिर से आधार कार्ड सबमिट करना होगा।")) {
-    localStorage.removeItem("user_kyc_data");
-    localStorage.removeItem("user_kyc_completed");
-    alert("KYC रिसेट कर दी गई!");
-    loadKYCRecord();
-  }
-}
-
-/* ================= 4. यूजर कंट्रोल व बैलेंस ================= */
-function refreshBalancesView() {
-  var dep = parseInt(localStorage.getItem("deposit_balance") || "0");
-  var win = parseInt(localStorage.getItem("winning_balance") || "0");
-  document.getElementById("vw-dep").innerText = dep;
-  document.getElementById("vw-win").innerText = win;
-
-  var isBlocked = localStorage.getItem("user_blocked") === "true";
-  var bBadge = document.getElementById("block-status-badge");
-  var bBtn = document.getElementById("btn-block-toggle");
-
-  if(isBlocked) {
-    bBadge.innerText = "ब्लॉक (BLOCKED)";
-    bBadge.style.background = "#e11d48";
-    bBtn.innerText = "🔓 यूजर को अनब्लॉक करें";
-    bBtn.className = "btn-app";
-  } else {
-    bBadge.innerText = "सक्रिय (ACTIVE)";
-    bBadge.style.background = "#10b981";
-    bBtn.innerText = "🚫 यूजर को ब्लॉक करें";
-    bBtn.className = "btn-rej";
-  }
-}
-
-// मैन्युअल बैलेंस काटना या जोड़ना
-function adjustBalance(type) {
-  var amt = parseInt(document.getElementById("manual-amt").value);
-  var target = document.getElementById("balance-target").value;
-
-  if(isNaN(amt) || amt <= 0) {
-    alert("⚠️ कृपया सही अमाउंट दर्ज करें!");
-    return;
-  }
-
-  var key = (target === "winning") ? "winning_balance" : "deposit_balance";
-  var current = parseInt(localStorage.getItem(key) || "0");
-
-  if(type === "CUT") {
-    if(amt > current) {
-      if(!confirm("⚠️ यूजर के इस बैलेंस में केवल ₹" + current + " हैं। क्या आप पूरा बैलेंस 0 करना चाहते हैं?")) return;
-      current = 0;
-    } else {
-      current -= amt;
-    }
-    alert("✅ ₹" + amt + " सफलतापूर्वक काट लिए गए!");
-  } else {
-    current += amt;
-    alert("✅ ₹" + amt + " सफलतापूर्वक जोड़ दिए गए!");
-  }
-
-  localStorage.setItem(key, current);
-  document.getElementById("manual-amt").value = "";
-  refreshBalancesView();
-}
-
-// ब्लॉक / अनब्लॉक
-function toggleUserBlock() {
-  var isBlocked = localStorage.getItem("user_blocked") === "true";
-  if(!isBlocked) {
-    if(confirm("⚠️ क्या आप इस यूजर को ब्लॉक करना चाहते हैं? ब्लॉक होने पर यूजर ऐप में कुछ भी नहीं कर पाएगा।")) {
-      localStorage.setItem("user_blocked", "true");
-      alert("🚫 यूजर को सफलतापूर्वक ब्लॉक कर दिया गया!");
-    }
-  } else {
-    if(confirm("क्या आप इस यूजर को अनब्लॉक करना चाहते हैं?")) {
-      localStorage.removeItem("user_blocked");
-      alert("✅ यूजर को अनब्लॉक कर दिया गया!");
-    }
-  }
-  refreshBalancesView();
-}
-
-// यूजर अकाउंट डिलीट करना
-function deleteUserAccount() {
-  if(confirm("⚠️ चेतावनी: क्या आप वाकई इस यूजर का पूरा अकाउंट डिलीट करना चाहते हैं?\n\n- यूजर का सारा बैलेंस, KYC और प्रोफाइल मिटा दिया जाएगा।\n- यूजर दोबारा नए सिरे से रजिस्ट्रेशन कर सकेगा।")) {
-    localStorage.removeItem("user_name");
-    localStorage.removeItem("user_phone");
-    localStorage.removeItem("deposit_balance");
-    localStorage.removeItem("winning_balance");
-    localStorage.removeItem("main_balance");
-    localStorage.removeItem("user_kyc_data");
-    localStorage.removeItem("user_kyc_completed");
-    localStorage.removeItem("permanent_payout_details");
-    localStorage.removeItem("user_blocked");
-    alert("🗑️ यूजर का अकाउंट और डेटा पूरी तरह मिटा दिया गया है!");
-    refreshBalancesView();
-    loadKYCRecord();
-    loadUserPayoutData();
-  }
-}
-
-/* ================= 5. यूजर पेमेंट सेटिंग्स बदलना ================= */
-function loadUserPayoutData() {
-  var data = JSON.parse(localStorage.getItem("permanent_payout_details") || "{}");
-  if(data.upi) document.getElementById("adm-upi").value = data.upi;
-  if(data.bank) {
-    document.getElementById("adm-holder").value = data.bank.holder || "";
-    document.getElementById("adm-acc").value = data.bank.acc || "";
-    document.getElementById("adm-ifsc").value = data.bank.ifsc || "";
-  }
-}
-
-function saveUserDetails() {
-  var data = JSON.parse(localStorage.getItem("permanent_payout_details") || "{}");
-  var upi = document.getElementById("adm-upi").value.trim();
-  var holder = document.getElementById("adm-holder").value.trim();
-  var acc = document.getElementById("adm-acc").value.trim();
-  var ifsc = document.getElementById("adm-ifsc").value.trim();
-  if(upi) data.upi = upi;
-  if(acc) data.bank = { holder: holder, acc: acc, ifsc: ifsc };
-  localStorage.setItem("permanent_payout_details", JSON.stringify(data));
-  alert("✅ प्लेयर डिटेल्स अपडेट कर दी गईं!");
-}
-
-function unlockAllDetails() {
-  if(confirm("क्या आप सभी पेमेंट विकल्प अनलॉक करना चाहते हैं?")) {
-    localStorage.removeItem("permanent_payout_details");
-    document.getElementById("adm-upi").value = "";
-    document.getElementById("adm-holder").value = "";
-    document.getElementById("adm-acc").value = "";
-    document.getElementById("adm-ifsc").value = "";
-    alert("🔓 सभी पेमेंट विवरण अनलॉक कर दिए गए!");
-  }
-}
-</script>
-</body>
-</html>
-
+        <button class="btn-app" onclick="actionDeposit('${r.id}', ${r.amount}, true)">✓ Approve (जोड़ें)</button>
+        <button clas
