@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saif Ludo - Add Money</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;-webkit-tap-highlight-color:transparent}
+body{background:#f4f8fd;color:#0f172a;padding-bottom:85px;overflow-x:hidden}
+
+/* हेडर */
+.header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#ffffff;box-shadow:0 4px 15px rgba(2,132,199,0.06);position:sticky;top:0;z-index:100}
+.header-left,.header-right{display:flex;align-items:center;gap:8px}
+.back-btn{background:#f1f5f9;border:1px solid #cbd5e1;width:38px;height:38px;border-radius:12px;font-size:18px;font-weight:900;cursor:pointer;color:#0f172a}
+.chip{display:flex;align-items:center;gap:5px;padding:6px 12px;border-radius:20px;font-size:13px;font-weight:800;border:none}
+.chip-w{background:#10b981;color:#fff}.chip-c{background:#f97316;color:#fff}
+
+.container{padding:18px 16px;max-width:460px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+
+/* टाइटल कार्ड */
+.top-meta{margin-bottom:4px}
+.sub-badge{font-size:11px;font-weight:800;letter-spacing:1px;color:#0284c7;text-transform:uppercase}
+.main-title{font-size:26px;font-weight:900;color:#050b17;letter-spacing:-0.5px;margin-top:2px}
+.main-subtitle{font-size:13px;color:#64748b;font-weight:600;margin-top:2px}
+
+/* इनपुट बॉक्स (स्क्रीनशॉट स्टाइल) */
+.deposit-box{background:#ffffff;border-radius:24px;padding:20px;border:1.5px solid #e0e7ff;box-shadow:0 10px 25px rgba(2,132,199,0.05)}
+.field-label{font-size:11px;font-weight:800;color:#64748b;letter-spacing:0.8px;margin-bottom:8px;text-transform:uppercase}
+.input-wrap{display:flex;align-items:center;background:#f8fafc;border:2px solid #cbd5e1;border-radius:18px;padding:12px 16px;transition:0.2s}
+.input-wrap:focus-within{border-color:#0284c7;background:#fff;box-shadow:0 0 0 4px rgba(2,132,199,0.12)}
+.curr-sym{width:38px;height:38px;background:#0284c7;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;margin-right:12px;box-shadow:0 4px 10px rgba(2,132,199,0.35)}
+.num-input{border:none;background:transparent;font-size:22px;font-weight:900;outline:none;width:100%;color:#0f172a}
+.sub-limits{display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:800;margin-top:10px;padding:0 4px}
+
+/* 3D ग्रिड चिप्स */
+.preset-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.preset-btn{background:#ffffff;border:1.5px solid #e2e8f0;border-radius:16px;padding:14px 10px;font-size:16px;font-weight:900;color:#0f172a;cursor:pointer;box-shadow:0 3px 8px rgba(0,0,0,0.03);transition:0.15s}
+.preset-btn:active,.preset-btn.selected{background:#e0f2fe;border-color:#0284c7;color:#0284c7;transform:translateY(-2px);box-shadow:0 6px 14px rgba(2,132,199,0.2)}
+
+/* 3D ग्लोइंग पे बटन */
+.btn-proceed{background:linear-gradient(135deg,#0284c7 0%,#0369a1 100%);color:#fff;border:none;padding:16px;border-radius:20px;font-size:17px;font-weight:900;cursor:pointer;width:100%;box-shadow:0 8px 20px rgba(2,132,199,0.4);transition:transform 0.1s}
+.btn-proceed:active{transform:scale(0.97)}
+
+/* स्क्रीन 2: QR & टाइमर */
+.qr-card{background:#ffffff;border-radius:24px;padding:22px 18px;border:1.5px solid #e2e8f0;text-align:center;box-shadow:0 12px 30px rgba(0,0,0,0.05)}
+.timer-pill{background:#fee2e2;color:#ef4444;padding:7px 16px;border-radius:30px;font-weight:900;font-size:13px;display:inline-flex;align-items:center;gap:6px;margin-bottom:12px;border:1px solid #fca5a5}
+.qr-frame{background:#f8fafc;border:2.5px dashed #0284c7;border-radius:20px;padding:14px;margin:12px 0 16px;display:inline-block}
+.qr-img{width:210px;height:210px;border-radius:12px;display:block}
+.upi-copy-bar{display:flex;justify-content:space-between;align-items:center;background:#f1f5f9;border:1px solid #cbd5e1;padding:10px 14px;border-radius:12px;font-weight:800;font-size:13px;margin-bottom:16px}
+.copy-btn{background:#0284c7;color:#fff;border:none;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:800;cursor:pointer}
+.form-grp{text-align:left;margin-top:12px}
+.form-lbl{font-size:12px;font-weight:800;color:#64748b;margin-bottom:6px}
+.text-box{width:100%;padding:13px 14px;border:1.5px solid #cbd5e1;border-radius:12px;font-size:15px;font-weight:700;outline:none}
+.text-box:focus{border-color:#0284c7}
+
+/* बॉटम नेव */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:70px;background:#fff;display:flex;justify-content:space-around;align-items:center;border-top:1px solid #e2e8f0;max-width:500px;margin:0 auto;z-index:100}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;color:#64748b;font-size:11px;font-weight:700;cursor:pointer;width:25%}
+.nav-item.active{color:#0284c7}
+.nav-icon{width:36px;height:36px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-left">
+    <button class="back-btn" onclick="window.location.href='home.html'">❮</button>
+    <img src="logo.png" style="height:32px" onerror="this.style.display='none'">
+  </div>
+  <div class="header-right">
+    <button class="chip chip-w">₹ <span id="w-bal">0</span></button>
+    <button class="chip chip-c">🪙 <span id="c-bal">0</span></button>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- ================= 1. ऐड मनी स्क्रीन ================= -->
+  <div id="view-add-screen">
+    <div class="top-meta">
+      <div class="sub-badge">WALLET</div>
+      <h1 class="main-title">Add Money</h1>
+      <p class="main-subtitle">Choose amount and deposit securely</p>
+    </div>
+
+    <div class="deposit-box">
+      <div class="field-label">ENTER AMOUNT</div>
+      <div class="input-wrap">
+        <div class="curr-sym">₹</div>
+        <input type="number" id="deposit-amt" class="num-input" placeholder="Enter amount" min="50">
+      </div>
+
+      <div class="sub-limits">
+        <span style="color:#ef4444">Min: ₹50</span>
+        <span style="color:#0284c7">1 Coin = ₹1</span>
+      </div>
+
+      <!-- 6 प्रीसेट चिप्स -->
+      <div class="preset-grid">
+        <button class="preset-btn" onclick="selectAmt(50, this)">₹50</button>
+        <button class="preset-btn" onclick="selectAmt(100, this)">₹100</button>
+        <button class="preset-btn" onclick="selectAmt(250, this)">₹250</button>
+        <button class="preset-btn" onclick="selectAmt(500, this)">₹500</button>
+        <button class="preset-btn" onclick="selectAmt(1000, this)">₹1000</button>
+        <button class="preset-btn" onclick="selectAmt(2000, this)">₹2000</button>
+      </div>
+    </div>
+
+    <div style="text-align:center;font-size:12px;font-weight:700;color:#64748b;margin:6px 0 2px">
+      🔒 Secure & Instant Deposit
+    </div>
+
+    <!-- 3D Proceed Button -->
+    <button class="btn-proceed" onclick="proceedToPayment()">Proceed to Pay ➔</button>
+  </div>
+
+  <!-- ================= 2. क्यूआर कोड व टाइमर स्क्रीन ================= -->
+  <div id="view-qr-screen" style="display:none">
+    <div class="qr-card">
+      <div class="timer-pill">
+        ⏳ समय शेष: <span id="timer-text">05:00</span>
+      </div>
+
+      <div style="font-size:12px;font-weight:800;color:#64748b">भुगतान की जाने वाली राशि</div>
+      <h2 style="font-size:32px;font-weight:900;color:#0284c7;margin:2px 0 10px">₹ <span id="pay-amt-val">0</span></h2>
+
+      <div class="qr-frame">
+        <img id="qr-code-img" class="qr-img" src="" alt="UPI QR">
+      </div>
+
+      <div class="upi-copy-bar">
+        <span id="upi-id-txt">8569952689@paytm</span>
+        <button class="copy-btn" onclick="copyUPI()">Copy UPI</button>
+      </div>
+
+      <div class="form-grp">
+        <div class="form-lbl">12 अंकों का UTR / Ref No. दर्ज करें:</div>
+        <input type="number" id="utr-input" class="text-box" placeholder="उदा. 425612345678" maxlength="12">
+      </div>
+
+      <div class="form-grp">
+        <div class="form-lbl">पेमेंट का स्क्रीनशॉट अपलोड करें:</div>
+        <input type="file" id="ss-input" accept="image/*" class="text-box" style="padding:10px">
+      </div>
+
+      <button class="btn-proceed" style="margin-top:18px" onclick="submitDeposit()">पेमेंट सबमिट करें ➔</button>
+    </div>
+  </div>
+
+  <!-- ================= 3. पेंडिंग कन्फर्मेशन स्क्रीन ================= -->
+  <div id="view-success-screen" style="display:none">
+    <div class="qr-card" style="padding:40px 20px">
+      <div style="font-size:55px;margin-bottom:12px">⏳</div>
+      <h2 style="font-size:22px;font-weight:900;color:#0f172a">अनुरोध प्राप्त हुआ!</h2>
+      <p style="font-size:13px;color:#64748b;line-height:1.6;margin:12px 0 24px">
+        आपकी <b>₹<span id="succ-amt">0</span></b> की रिक्वेस्ट एडमिन को भेज दी गई है। UTR वेरिफिकेशन के बाद <b>2 से 5 मिनट</b> में वॉलेट में बैलेंस जोड़ दिया जाएगा।
+      </p>
+      <button class="btn-proceed" onclick="window.location.href='home.html'">होम पर वापस जाएँ</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- बॉटम नेविगेशन बार -->
+<nav class="bottom-nav">
+  <button class="nav-item" onclick="window.location.href='home.html'">
+    <div class="nav-icon" style="background:#e0f2fe;color:#0284c7">🏠</div>
+    <span>Home</span>
+  </button>
+  <button class="nav-item active">
+    <div class="nav-icon" style="background:#dcfce7;color:#16a34a">👛</div>
+    <span>Wallet</span>
+  </button>
+  <button class="nav-item" onclick="window.location.href='home.html'">
+    <div class="nav-icon" style="background:#cffafe;color:#0891b2">🎧</div>
+    <span>Support</span>
+  </button>
+  <button class="nav-item" onclick="window.location.href='home.html'">
+    <div class="nav-icon" style="background:#ffedd5;color:#ea580c">👤</div>
+    <span>Profile</span>
+  </button>
+</nav>
+
+<script>
+var MY_UPI_ID = "8569952689@paytm";
+var selectedAmt = 0;
+var countdownTimer;
+
+window.onload = function() {
+  document.getElementById("w-bal").innerText = localStorage.getItem("main_balance") || "0";
+  document.getElementById("c-bal").innerText = localStorage.getItem("ref_balance") || "0";
+};
+
+function selectAmt(amt, btn) {
+  document.getElementById("deposit-amt").value = amt;
+  document.querySelectorAll('.preset-btn').forEach(function(b){ b.classList.remove('selected'); });
+  btn.classList.add('selected');
+}
+
+function proceedToPayment() {
+  var val = parseInt(document.getElementById("deposit-amt").value);
+  if (isNaN(val) || val < 50) {
+    alert("⚠️ न्यूनतम डिपॉजिट ₹50 है। कृपया ₹50 या उससे अधिक अमाउंट दर्ज करें।");
+    return;
+  }
+
+  selectedAmt = val;
+  document.getElementById("pay-amt-val").innerText = val;
+  document.getElementById("upi-id-txt").innerText = MY_UPI_ID;
+
+  // डायनामिक UPI QR जनरेटर
+  var upiUrl = "upi://pay?pa=" + MY_UPI_ID + "&pn=SaifLudo&am=" + val + "&cu=INR";
+  var qrApi = "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=" + encodeURIComponent(upiUrl);
+  document.getElementById("qr-code-img").src = qrApi;
+
+  document.getElementById("view-add-screen").style.display = "none";
+  document.getElementById("view-qr-screen").style.display = "block";
+  window.scrollTo(0,0);
+
+  start5MinTimer();
+}
+
+function start5MinTimer() {
+  var timeLeft = 300; // 5 मिनट = 300 सेकंड
+  var timerEl = document.getElementById("timer-text");
+
+  countdownTimer = setInterval(function() {
+    var min = Math.floor(timeLeft / 60);
+    var sec = timeLeft % 60;
+    timerEl.innerText = (min < 10 ? "0" : "") + min + ":" + (sec < 10 ? "0" : "") + sec;
+
+    if (timeLeft <= 0) {
+      clearInterval(countdownTimer);
+      alert("⚠️ 5 मिनट का समय समाप्त हो गया है! कृपया दोबारा प्रयास करें।");
+      window.location.reload();
+    }
+    timeLeft--;
+  }, 1000);
+}
+
+function copyUPI() {
+  navigator.clipboard.writeText(MY_UPI_ID);
+  alert("UPI ID कॉपी हो गई: " + MY_UPI_ID);
+}
+
+function submitDeposit() {
+  var utr = document.getElementById("utr-input").value.trim();
+  var fileInput = document.getElementById("ss-input");
+
+  if (utr.length !== 12) {
+    alert("⚠️ कृपया सही 12 अंकों का UTR / Ref नंबर दर्ज करें।");
+    return;
+  }
+
+  if (!fileInput.files || fileInput.files.length === 0) {
+    alert("⚠️ कृपया पेमेंट का स्क्रीनशॉट अपलोड करें।");
+    return;
+  }
+
+  clearInterval(countdownTimer);
+
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var reqData = {
+      id: "REQ" + new Date().getTime(),
+      user: localStorage.getItem("user_name") || "Player",
+      amount: selectedAmt,
+      utr: utr,
+      screenshot: e.target.result,
+      time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+      status: "PENDING"
+    };
+
+    var allRequests = JSON.parse(localStorage.getItem("deposit_requests") || "[]");
+    allRequests.unshift(reqData);
+    localStorage.setItem("deposit_requests", JSON.stringify(allRequests));
+
+    document.getElementById("succ-amt").innerText = selectedAmt;
+    document.getElementById("view-qr-screen").style.display = "none";
+    document.getElementById("view-success-screen").style.display = "block";
+    window.scrollTo(0,0);
+  };
+  reader.readAsDataURL(fileInput.files[0]);
+}
+</script>
+</body>
+</html>
+
