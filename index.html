@@ -3,48 +3,423 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>लॉगिन - गेमिंग पोर्टल</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Saif Ludo - खेलें और जीतें</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: #f4f7fb;
+            color: #1e293b;
+            padding-bottom: 95px;
+        }
+
+        /* टॉप हेडर */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 16px;
+            background: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .brand-logo-img {
+            height: 42px;
+            width: auto;
+            object-fit: contain;
+            display: block;
+        }
+        .header-btn {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            padding: 7px 15px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            color: #0f172a;
+        }
+
+        .main-content {
+            padding: 16px;
+            max-width: 480px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* वेलकम हीरो बैनर */
+        .hero-banner {
+            background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
+            border: 1px solid #bae6fd;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.08);
+        }
+        .badge {
+            display: inline-block;
+            background: #0284c7;
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
+        .hero-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #0f172a;
+            line-height: 1.2;
+        }
+        .hero-title span { color: #0284c7; }
+        .hero-notice {
+            font-size: 12px;
+            color: #475569;
+            margin-top: 12px;
+            line-height: 1.5;
+            background: rgba(255,255,255,0.75);
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* फीचर्स ग्रिड */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 14px;
+        }
+        .feature-box {
+            background: white;
+            padding: 10px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+        .feature-val { font-weight: 800; font-size: 15px; color: #0f172a; }
+        .feature-lbl { font-size: 11px; color: #64748b; margin-top: 2px; }
+
+        /* गेम एरीना कार्ड */
+        .arena-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 4px;
+        }
+        .arena-title { font-weight: 800; font-size: 16px; }
+        .live-tag {
+            background: #dcfce7;
+            color: #16a34a;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 8px;
+        }
+
+        .ludo-card {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border-radius: 18px;
+            padding: 20px;
+            color: white;
+            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.2);
+        }
+        .ludo-card h3 { font-size: 20px; margin-bottom: 6px; }
+        .ludo-card p { font-size: 12px; color: #94a3b8; margin-bottom: 16px; }
+        .play-btn {
+            background: #0284c7;
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            font-weight: 700;
+            font-size: 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.4);
+        }
+
+        /* बॉटम फिक्स्ड बार */
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 12px 20px;
+            display: flex;
+            gap: 12px;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.08);
+            z-index: 20;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .btn-bottom {
+            flex: 1;
+            padding: 13px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            border: none;
+            text-align: center;
+        }
+        .btn-login-outline {
+            background: #f1f5f9;
+            color: #0f172a;
+            border: 1px solid #cbd5e1;
+        }
+        .btn-register-solid {
+            background: #0284c7;
+            color: white;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+        }
+
+        /* पॉप-अप मॉडल */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(3px);
+            justify-content: center;
+            align-items: center;
+            z-index: 50;
+            padding: 20px;
+        }
+        .modal-box {
+            background: white;
+            width: 100%;
+            max-width: 360px;
+            padding: 24px;
+            border-radius: 20px;
+            position: relative;
+        }
+        .modal-title { font-size: 18px; font-weight: 800; margin-bottom: 6px; }
+        .modal-subtitle { font-size: 13px; color: #64748b; margin-bottom: 16px; }
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            font-size: 15px;
+            margin-bottom: 12px;
+            outline: none;
+        }
+        .input-field:focus { border-color: #0284c7; }
+        .submit-btn {
+            width: 100%;
+            background: #0284c7;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .close-btn {
+            position: absolute;
+            top: 14px;
+            right: 18px;
+            font-size: 22px;
+            cursor: pointer;
+            color: #64748b;
+        }
+    </style>
 </head>
 <body>
 
-    <!-- मोबाइल नंबर दर्ज करने का बॉक्स -->
-    <div class="container" id="login-box">
-        <h2>स्वागत है</h2>
-        <p>लॉगिन करने के लिए अपना मोबाइल नंबर दर्ज करें</p>
-        
-        <input type="tel" id="phone" class="input-box" placeholder="मोबाइल नंबर (10 अंक)" maxlength="10">
-        <button class="btn" onclick="sendOTP()">ओटीपी भेजें</button>
+    <!-- टॉप हेडर में लोगो -->
+    <div class="top-nav">
+        <img src="logo.png" alt="Saif Ludo" class="brand-logo-img">
+        <button class="header-btn" onclick="openAuth('login')">लॉगिन ➔</button>
     </div>
 
-    <!-- ओटीपी दर्ज करने का बॉक्स (शुरुआत में छुपा रहेगा) -->
-    <div class="container" id="otp-box" style="display: none;">
-        <h2>ओटीपी वेरिफाई करें</h2>
-        <p>आपके नंबर पर भेजा गया 6 अंकों का कोड दर्ज करें</p>
+    <div class="main-content">
         
-        <input type="text" id="otp" class="input-box" placeholder="6-digit OTP" maxlength="6">
-        <button class="btn" onclick="verifyOTP()">वेरिफाई और लॉगिन</button>
+        <!-- वेलकम बैनर -->
+        <div class="hero-banner">
+            <span class="badge">आधिकारिक Saif Ludo</span>
+            <div class="hero-title">लूडो खेलें,<br><span>असली कैश जीतें</span></div>
+            <div class="hero-notice">
+                📢 <strong>सूचना:</strong> सभी प्लेयर्स से निवेदन है कि केवल <strong>saifludo.in</strong> ही हमारी आधिकारिक वेबसाइट है। किसी अन्य फेक लिंक पर पैसे डिपॉजिट न करें।
+            </div>
+
+            <!-- फीचर्स -->
+            <div class="features-grid">
+                <div class="feature-box">
+                    <div class="feature-val">5%</div>
+                    <div class="feature-lbl">कमीशन</div>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-val">24/7</div>
+                    <div class="feature-lbl">सपोर्ट</div>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-val">तुरंत</div>
+                    <div class="feature-lbl">विड्रॉल</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- लूडो गेम सेक्शन -->
+        <div class="arena-header">
+            <span class="arena-title">गेम मोड चुनें</span>
+            <span class="live-tag">● 1 LIVE</span>
+        </div>
+
+        <div class="ludo-card">
+            <h3>क्लासिक लूडो बैटल</h3>
+            <p>1 vs 1 लाइव मुकाबला खेलें और सीधे अपने खाते में जीतें।</p>
+            <button class="play-btn" onclick="openAuth('smart')">▶ Play Now</button>
+        </div>
+
+    </div>
+
+    <!-- बॉटम फिक्स्ड बटन -->
+    <div class="bottom-bar">
+        <button class="btn-bottom btn-login-outline" onclick="openAuth('login')">लॉगिन करें</button>
+        <button class="btn-bottom btn-register-solid" onclick="openAuth('register')">रजिस्टर करें</button>
+    </div>
+
+    <!-- पॉप-अप फॉर्म -->
+    <div class="modal" id="authModal">
+        <div class="modal-box">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+
+            <!-- चरण 1: मोबाइल नंबर -->
+            <div id="step-number">
+                <div class="modal-title" id="m-title">Saif Ludo में आपका स्वागत है</div>
+                <div class="modal-subtitle" id="m-desc">आगे बढ़ने के लिए मोबाइल नंबर दर्ज करें।</div>
+
+                <input type="tel" id="user-phone" class="input-field" placeholder="मोबाइल नंबर (10 अंक)" maxlength="10">
+                <button class="submit-btn" onclick="processNumber()">आगे बढ़ें</button>
+            </div>
+
+            <!-- चरण 2: नया यूजर फॉर्म -->
+            <div id="step-details" style="display: none;">
+                <div class="modal-title">प्रोफाइल पूरी करें</div>
+                <div class="modal-subtitle">नए यूजर के लिए विवरण आवश्यक है।</div>
+
+                <input type="text" id="user-name" class="input-field" placeholder="पूरा नाम">
+                <input type="date" id="user-dob" class="input-field">
+                <button class="submit-btn" onclick="sendMockOTP()">ओटीपी प्राप्त करें</button>
+            </div>
+
+            <!-- चरण 3: ओटीपी -->
+            <div id="step-otp" style="display: none;">
+                <div class="modal-title">ओटीपी वेरिफाई करें</div>
+                <div class="modal-subtitle">नंबर पर भेजा गया 6 अंकों का कोड दर्ज करें।</div>
+
+                <input type="text" id="user-otp" class="input-field" placeholder="6-digit OTP" maxlength="6">
+                <button class="submit-btn" onclick="verifyAndRedirect()">सत्यापित करें</button>
+            </div>
+
+        </div>
     </div>
 
     <script>
-        function sendOTP() {
-            var phone = document.getElementById("phone").value;
-            if(phone.length === 10) {
-                alert("ओटीपी भेज दिया गया है!");
-                document.getElementById("login-box").style.display = "none";
-                document.getElementById("otp-box").style.display = "block";
+        window.onload = function() {
+            var loginExpiry = localStorage.getItem("user_session_expiry");
+            if (loginExpiry && new Date().getTime() < parseInt(loginExpiry)) {
+                window.location.href = "home.html";
+            }
+        };
+
+        var currentMode = "smart";
+        var existingDatabaseNumbers = ["9876543210", "9999999999"];
+
+        function openAuth(mode) {
+            currentMode = mode;
+            document.getElementById("step-number").style.display = "block";
+            document.getElementById("step-details").style.display = "none";
+            document.getElementById("step-otp").style.display = "none";
+            document.getElementById("user-phone").value = "";
+
+            if(mode === 'login') {
+                document.getElementById("m-title").innerText = "लॉगिन करें";
+                document.getElementById("m-desc").innerText = "अपना रजिस्टर्ड मोबाइल नंबर दर्ज करें।";
+            } else if(mode === 'register') {
+                document.getElementById("m-title").innerText = "नया खाता बनाएं";
+                document.getElementById("m-desc").innerText = "रजिस्टर करने के लिए मोबाइल नंबर दर्ज करें।";
             } else {
-                alert("कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें।");
+                document.getElementById("m-title").innerText = "Saif Ludo खेलें";
+                document.getElementById("m-desc").innerText = "लॉगिन या रजिस्टर करने के लिए नंबर दर्ज करें।";
+            }
+
+            document.getElementById("authModal").style.display = "flex";
+        }
+
+        function closeModal() {
+            document.getElementById("authModal").style.display = "none";
+        }
+
+        function processNumber() {
+            var phone = document.getElementById("user-phone").value.trim();
+            if (phone.length !== 10) {
+                alert("कृपया 10 अंकों का सही मोबाइल नंबर दर्ज करें।");
+                return;
+            }
+
+            var isRegistered = existingDatabaseNumbers.includes(phone);
+
+            if (currentMode === 'register' && isRegistered) {
+                alert("⚠️ यह नंबर पहले से रजिस्टर्ड है! कृपया सीधे 'लॉगिन करें' बटन पर क्लिक करके गेम खेलें।");
+                openAuth('login');
+                document.getElementById("user-phone").value = phone;
+                return;
+            }
+
+            if (currentMode === 'login' && !isRegistered) {
+                alert("❌ यह नंबर रजिस्टर्ड नहीं है! कृपया पहले 'रजिस्टर करें' पर जाकर खाता बनाएं।");
+                openAuth('register');
+                document.getElementById("user-phone").value = phone;
+                return;
+            }
+
+            if (!isRegistered) {
+                document.getElementById("step-number").style.display = "none";
+                document.getElementById("step-details").style.display = "block";
+            } else {
+                sendMockOTP();
             }
         }
 
-        function verifyOTP() {
-            var otp = document.getElementById("otp").value;
-            if(otp.length === 6) {
-                alert("लॉगिन सफल रहा!");
+        function sendMockOTP() {
+            var name = document.getElementById("user-name").value;
+            if (document.getElementById("step-details").style.display === "block" && !name) {
+                alert("कृपया अपना नाम दर्ज करें।");
+                return;
+            }
+            alert("ओटीपी भेज दिया गया है!");
+            document.getElementById("step-number").style.display = "none";
+            document.getElementById("step-details").style.display = "none";
+            document.getElementById("step-otp").style.display = "block";
+        }
+
+        function verifyAndRedirect() {
+            var otp = document.getElementById("user-otp").value.trim();
+            if (otp.length === 6) {
+                var sevenDaysLater = new Date().getTime() + (7 * 24 * 60 * 60 * 1000);
+                localStorage.setItem("user_session_expiry", sevenDaysLater);
+                localStorage.setItem("is_logged_in", "true");
+
+                alert("सफल! रीडायरेक्ट हो रहा है...");
                 window.location.href = "home.html";
             } else {
-                alert("कृपया वैध 6 अंकों का कोड दर्ज करें।");
+                alert("कृपया सही 6 अंकों का कोड दर्ज करें।");
             }
         }
     </script>
