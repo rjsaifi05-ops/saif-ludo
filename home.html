@@ -170,6 +170,8 @@ window.onload = function() {
   document.getElementById("u-name").innerText = name;
   document.getElementById("p-name").innerText = name;
   document.getElementById("p-avatar").innerText = name.charAt(0).toUpperCase();
+  var tab = localStorage.getItem("open_tab") || new URLSearchParams(window.location.search).get('tab');
+  if (tab) { localStorage.removeItem("open_tab"); go(tab); }
 };
 
 function toggleMenu(open) {
