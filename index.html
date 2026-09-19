@@ -464,6 +464,9 @@
             var name = document.getElementById("user-name").value.trim();
             var dob = document.getElementById("user-dob").value.trim();
 
+            // यूजर का नाम सेव करने के लिए यह लाइन:
+            localStorage.setItem("user_name", name);
+
             if (!name) {
                 alert("कृपया अपना पूरा नाम दर्ज करें।");
                 return;
