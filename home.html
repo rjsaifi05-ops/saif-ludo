@@ -1,499 +1,222 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Saif Ludo - होम</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            background-color: #f6f9fe;
-            color: #1e293b;
-            padding-bottom: 85px;
-        }
-
-        /* टॉप हेडर */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 16px;
-            background: #ffffff;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .menu-btn {
-            background: #fff1f2;
-            border: 1px solid #fecdd3;
-            color: #e11d48;
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 18px;
-            cursor: pointer;
-        }
-
-        .app-logo {
-            height: 36px;
-            width: auto;
-            object-fit: contain;
-            border-radius: 6px;
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .icon-badge {
-            background: #e0e7ff;
-            color: #4338ca;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            cursor: pointer;
-            border: none;
-        }
-
-        .chip {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 800;
-            cursor: pointer;
-            border: none;
-        }
-
-        .chip-wallet {
-            background: #10b981;
-            color: white;
-        }
-
-        .chip-coins {
-            background: #f97316;
-            color: white;
-        }
-
-        /* मुख्य कंटेनर */
-        .container {
-            padding: 16px;
-            max-width: 480px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        /* यूजर ग्रीट और ट्रस्ट नोटिस */
-        .user-greeting {
-            font-size: 24px;
-            font-weight: 900;
-            color: #050b17;
-            letter-spacing: -0.3px;
-        }
-
-        .trust-banner {
-            background: #ffffff;
-            border-radius: 14px;
-            padding: 12px 14px;
-            font-size: 13px;
-            color: #334155;
-            line-height: 1.5;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
-        }
-
-        .trust-banner strong {
-            color: #0284c7;
-        }
-
-        /* रेफर एंड अर्न कार्ड */
-        .refer-card {
-            background: #ffffff;
-            border-radius: 20px;
-            padding: 16px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
-            cursor: pointer;
-        }
-
-        .refer-subtitle {
-            font-size: 11px;
-            font-weight: 800;
-            color: #64748b;
-            letter-spacing: 0.5px;
-        }
-
-        .refer-title {
-            font-size: 20px;
-            font-weight: 900;
-            color: #0f172a;
-            margin-top: 2px;
-        }
-
-        .refer-arrow-btn {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            background: #0284c7;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            border: none;
-            cursor: pointer;
-        }
-
-        /* गेम सेक्शन */
-        .section-title {
-            font-size: 12px;
-            font-weight: 800;
-            letter-spacing: 0.8px;
-            color: #0284c7;
-            text-transform: uppercase;
-        }
-
-        /* लूडो गेम कार्ड */
-        .game-hero-card {
-            position: relative;
-            height: 185px;
-            border-radius: 22px;
-            overflow: hidden;
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.2);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 16px;
-            background-image: radial-gradient(circle at top left, #38bdf8 0%, transparent 40%),
-                              radial-gradient(circle at bottom right, #ef4444 0%, transparent 45%),
-                              radial-gradient(circle at bottom left, #eab308 0%, transparent 45%),
-                              radial-gradient(circle at top right, #22c55e 0%, transparent 40%);
-        }
-
-        .live-chip {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(4px);
-            color: #22c55e;
-            font-size: 11px;
-            font-weight: 800;
-            padding: 4px 10px;
-            border-radius: 20px;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            align-self: flex-start;
-        }
-
-        .live-dot {
-            width: 7px;
-            height: 7px;
-            background: #22c55e;
-            border-radius: 50%;
-            box-shadow: 0 0 6px #22c55e;
-        }
-
-        .card-bottom-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-        }
-
-        .game-name-title {
-            color: white;
-            font-size: 20px;
-            font-weight: 900;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
-        }
-
-        .game-subtitle {
-            color: #e2e8f0;
-            font-size: 12px;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
-        }
-
-        .btn-play {
-            background: #0284c7;
-            color: white;
-            border: none;
-            padding: 10px 24px;
-            border-radius: 25px;
-            font-size: 15px;
-            font-weight: 800;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.5);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: transform 0.1s ease;
-        }
-
-        .btn-play:active {
-            transform: scale(0.96);
-        }
-
-        /* कमिंग सून गेम कार्ड */
-        .locked-game-card {
-            background: white;
-            border-radius: 20px;
-            padding: 14px 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
-            opacity: 0.85;
-        }
-
-        .locked-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .locked-icon-box {
-            width: 46px;
-            height: 46px;
-            background: #f1f5f9;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-        }
-
-        .locked-name {
-            font-weight: 800;
-            font-size: 15px;
-            color: #0f172a;
-        }
-
-        .locked-desc {
-            font-size: 12px;
-            color: #64748b;
-        }
-
-        .soon-pill {
-            background: #f8fafc;
-            border: 1px solid #cbd5e1;
-            color: #64748b;
-            font-size: 11px;
-            font-weight: 700;
-            padding: 5px 12px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        /* फिक्स्ड बॉटम नेविगेशन बार */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 70px;
-            background: #ffffff;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            border-top: 1px solid #e2e8f0;
-            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.04);
-            max-width: 500px;
-            margin: 0 auto;
-            z-index: 1000;
-        }
-
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 3px;
-            cursor: pointer;
-            background: none;
-            border: none;
-            color: #64748b;
-            font-size: 11px;
-            font-weight: 700;
-            width: 25%;
-        }
-
-        .nav-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-        }
-
-        .nav-item.active {
-            color: #0284c7;
-        }
-
-        .icon-home { background: #e0f2fe; color: #0284c7; }
-        .icon-wallet { background: #dcfce7; color: #16a34a; }
-        .icon-support { background: #cffafe; color: #0891b2; }
-        .icon-profile { background: #ffedd5; color: #ea580c; }
-    </style>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saif Ludo</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,sans-serif;-webkit-tap-highlight-color:transparent}
+body{background:#f6f9fe;color:#1e293b;padding-bottom:85px;overflow-x:hidden}
+.header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.04);position:sticky;top:0;z-index:100}
+.header-left,.header-right{display:flex;align-items:center;gap:8px}
+.menu-btn{background:#fff1f2;border:1px solid #fecdd3;color:#e11d48;width:38px;height:38px;border-radius:10px;font-size:20px;cursor:pointer}
+.chip{display:flex;align-items:center;gap:5px;padding:6px 12px;border-radius:20px;font-size:13px;font-weight:800;border:none;cursor:pointer}
+.chip-w{background:#10b981;color:#fff}.chip-c{background:#f97316;color:#fff}
+.view-sec{display:none;padding:16px;max-width:480px;margin:0 auto;flex-direction:column;gap:14px}
+.view-sec.active{display:flex}
+.greeting{font-size:24px;font-weight:900;color:#050b17}
+.trust-box{background:#fff;border-radius:14px;padding:12px;font-size:13px;color:#334155;border:1px solid #e2e8f0;line-height:1.4}
+.refer-box{background:#fff;border-radius:18px;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;border:1px solid #e2e8f0;cursor:pointer}
+/* 3D Ludo King Card */
+.ludo-hero{position:relative;height:190px;border-radius:20px;overflow:hidden;background:linear-gradient(135deg,#070d1e,#131f3e,#0b090a);border:2px solid #f59e0b;box-shadow:0 10px 25px rgba(0,0,0,.35);display:flex;flex-direction:column;justify-content:space-between;padding:16px}
+.board-3d{position:absolute;right:10px;top:50%;transform:translateY(-50%) rotate(8deg);width:130px;height:130px;background:#0f172a;border-radius:16px;border:3px solid #f59e0b;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:5px;padding:6px;box-shadow:0 12px 25px rgba(0,0,0,.6)}
+.b-cell{border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.b-r{background:#dc2626}.b-g{background:#16a34a}.b-y{background:#ca8a04}.b-b{background:#2563eb}
+.dice-3d{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 6px 15px rgba(0,0,0,.7);border:1px solid #e2e8f0}
+.btn-play{background:linear-gradient(135deg,#0284c7,#0369a1);color:#fff;border:none;padding:10px 24px;border-radius:25px;font-weight:800;font-size:15px;cursor:pointer;box-shadow:0 4px 12px rgba(2,132,199,.5);z-index:2}
+/* Drawer & Nav */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:998;display:none}
+.drawer{position:fixed;top:0;left:0;width:280px;height:100%;background:#fff;z-index:999;transform:translateX(-100%);transition:.3s;display:flex;flex-direction:column;overflow-y:auto;padding:14px;gap:8px}
+.drawer.open{transform:translateX(0)}
+.d-item{background:#fff;border:1px solid #f1f5f9;border-radius:12px;padding:12px;display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:14px;cursor:pointer}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:68px;background:#fff;display:flex;justify-content:space-around;align-items:center;border-top:1px solid #e2e8f0;max-width:500px;margin:0 auto;z-index:100}
+.nav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;color:#64748b;font-size:11px;font-weight:700;cursor:pointer;width:25%}
+.nav-btn.act{color:#0284c7}
+.card-w{background:#fff;border-radius:16px;padding:16px;border:1px solid #e2e8f0}
+</style>
 </head>
 <body>
 
-    <!-- टॉप हेडर -->
-    <header class="header">
-        <div class="header-left">
-            <button class="menu-btn" onclick="openMenu()">☰</button>
-            <img src="logo.png" alt="Saif Ludo Logo" class="app-logo" onerror="this.style.display='none'">
-        </div>
-        <div class="header-right">
-            <button class="icon-badge" onclick="openNotice()">🔔</button>
-            <button class="chip chip-wallet" onclick="openWallet()">₹ <span id="user-balance">0</span></button>
-            <button class="chip chip-coins" onclick="openWallet()">🪙 <span id="user-coins">25</span></button>
-        </div>
-    </header>
+<div class="overlay" id="ovl" onclick="toggleMenu(false)"></div>
 
-    <div class="container">
-        
-        <!-- यूजर का नाम (बोल्ड ब्लैक) -->
-        <div class="user-greeting">
-            Hey, <span id="display-user-name" style="color: #000000;">Player</span>
-        </div>
+<div class="drawer" id="drw">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;border-bottom:1px solid #e2e8f0">
+    <h3 style="font-size:16px;font-weight:900">SAIF LUDO</h3>
+    <button onclick="toggleMenu(false)" style="border:none;background:none;font-size:22px;cursor:pointer">&times;</button>
+  </div>
+  <div class="d-item" onclick="go('home')"><span>🏠 Home</span><span>›</span></div>
+  <div class="d-item" onclick="go('profile')"><span>👤 My Profile</span><span>›</span></div>
+  <div class="d-item" onclick="go('wallet')"><span>👛 My Wallet</span><span>›</span></div>
+  <div class="d-item" onclick="go('refer')"><span>🎁 Refer & Earn</span><span>›</span></div>
+  <div class="d-item" onclick="go('history')"><span>🕒 History</span><span>›</span></div>
+  <div class="d-item" onclick="toggleMenu(false);alert('Koi notification nahi hai.')"><span>🔔 Notifications</span><span>›</span></div>
+  <div class="d-item" onclick="go('support')"><span>🎧 Support</span><span>›</span></div>
+  <div class="d-item" onclick="installPWA()"><span>📥 Install App</span><span>›</span></div>
+</div>
 
-        <!-- भरोसेमंद ट्रस्ट नोटिस -->
-        <div class="trust-banner">
-            🎯 <strong>100% भरोसेमंद और सुरक्षित:</strong> Saif Ludo पर खेलें बिना किसी डर के! जीते हुए पैसे तुरंत मात्र <strong>2 से 5 मिनट में</strong> सीधे अपने बैंक खाते या UPI में पाएं। 24/7 कस्टमर सपोर्ट उपलब्ध।
-        </div>
+<header class="header">
+  <div class="header-left">
+    <button class="menu-btn" onclick="toggleMenu(true)">☰</button>
+    <img src="logo.png" style="height:34px" onerror="this.style.display='none'">
+  </div>
+  <div class="header-right">
+    <button class="chip chip-w" onclick="go('wallet')">₹ <span id="w-bal">0</span></button>
+    <button class="chip chip-c" onclick="go('refer')">🪙 <span id="c-bal">0</span></button>
+  </div>
+</header>
 
-        <!-- रेफर एंड अर्न कार्ड -->
-        <div class="refer-card" onclick="openReferral()">
-            <div>
-                <div class="refer-subtitle">REFER & EARN</div>
-                <div class="refer-title">2% Refer Commission</div>
-            </div>
-            <button class="refer-arrow-btn">↗</button>
-        </div>
+<!-- 1. HOME -->
+<main id="v-home" class="view-sec active">
+  <div class="greeting">Hey, <span id="u-name" style="color:#000">Player</span></div>
+  <div class="trust-box">🎯 <strong>100% Bharosemand:</strong> Saif Ludo par jeete hue paise turant <strong>2 se 5 minute mein</strong> bank ya UPI mein payen!</div>
+  
+  <div class="refer-box" onclick="go('refer')">
+    <div><div style="font-size:11px;font-weight:800;color:#64748b">REFER & EARN</div><div style="font-size:18px;font-weight:900">2% Refer Commission</div></div>
+    <div style="background:#0284c7;color:#fff;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px">↗</div>
+  </div>
 
-        <!-- गेम सेक्शन -->
-        <div class="section-title">GAMES</div>
-
-        <!-- लूडो क्लासिक कार्ड -->
-        <div class="game-hero-card">
-            <div class="live-chip">
-                <span class="live-dot"></span> LIVE
-            </div>
-            <div class="card-bottom-row">
-                <div>
-                    <div class="game-name-title">Ludo Classic</div>
-                    <div class="game-subtitle">1 vs 1 Battle • Real Cash</div>
-                </div>
-                <!-- मुख्य प्ले बटन -->
-                <button class="btn-play" onclick="onPlayClicked()">▶ Play</button>
-            </div>
-        </div>
-
-        <!-- कमिंग सून गेम कार्ड -->
-        <div class="locked-game-card">
-            <div class="locked-info">
-                <div class="locked-icon-box">🎲</div>
-                <div>
-                    <div class="locked-name">1 Goti Ludo</div>
-                    <div class="locked-desc">Coming soon</div>
-                </div>
-            </div>
-            <div class="soon-pill">🔒 SOON</div>
-        </div>
-
+  <div style="font-size:12px;font-weight:800;color:#0284c7">GAMES</div>
+  
+  <div class="ludo-hero">
+    <div class="board-3d">
+      <div class="b-cell b-r">🔴</div><div class="b-cell b-g">🟢</div>
+      <div class="b-cell b-y">🟡</div><div class="b-cell b-b">🔵</div>
+      <div class="dice-3d">🎲</div>
     </div>
+    <div style="background:rgba(0,0,0,.6);color:#22c55e;font-size:11px;font-weight:800;padding:4px 10px;border-radius:15px;align-self:flex-start">● LIVE</div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;z-index:2">
+      <div>
+        <h3 style="color:#fff;font-size:20px;font-weight:900">Ludo Classic</h3>
+        <p style="color:#fef08a;font-size:12px;font-weight:700">1 vs 1 Battle • Real Cash</p>
+      </div>
+      <button class="btn-play" onclick="alert('Battle Room jald khul raha hai!')">▶ Play</button>
+    </div>
+  </div>
+</main>
 
-    <!-- बॉटम नेविगेशन बार -->
-    <nav class="bottom-nav">
-        <button class="nav-item active" onclick="navigate('home')">
-            <div class="nav-icon icon-home">🏠</div>
-            <span>Home</span>
-        </button>
-        <button class="nav-item" onclick="navigate('wallet')">
-            <div class="nav-icon icon-wallet">👛</div>
-            <span>Wallet</span>
-        </button>
-        <button class="nav-item" onclick="navigate('support')">
-            <div class="nav-icon icon-support">🎧</div>
-            <span>Support</span>
-        </button>
-        <button class="nav-item" onclick="navigate('profile')">
-            <div class="nav-icon icon-profile">👤</div>
-            <span>Profile</span>
-        </button>
-    </nav>
+<!-- 2. PROFILE -->
+<main id="v-profile" class="view-sec">
+  <div class="card-w">
+    <div style="display:flex;align-items:center;gap:12px">
+      <div id="p-avatar" style="width:50px;height:50px;background:#0284c7;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800">P</div>
+      <div>
+        <h3 id="p-name" style="font-size:17px;font-weight:900">Player</h3>
+        <span style="background:#dcfce7;color:#16a34a;font-size:11px;font-weight:800;padding:2px 8px;border-radius:5px">🛡️ KYC VERIFIED</span>
+      </div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+    <div class="card-w" style="text-align:center"><div>👛 Won</div><b style="font-size:16px">₹0</b></div>
+    <div class="card-w" style="text-align:center"><div>🎮 Played</div><b style="font-size:16px">0</b></div>
+    <div class="card-w" style="text-align:center"><div>🏆 Refer</div><b style="font-size:16px">0</b></div>
+  </div>
+  <button onclick="logout()" style="background:#fff1f2;color:#e11d48;border:1px solid #fecdd3;padding:12px;border-radius:12px;font-weight:800;cursor:pointer">🚪 Logout</button>
+</main>
 
-    <script>
-        // पेज लोड होने पर यूजर का नाम दिखाना
-        window.onload = function() {
-            var savedName = localStorage.getItem("user_name");
-            if (savedName && savedName.trim() !== "") {
-                document.getElementById("display-user-name").innerText = savedName;
-            }
-        };
+<!-- 3. WALLET -->
+<main id="v-wallet" class="view-sec">
+  <div class="card-w">
+    <div style="font-size:12px;color:#64748b;font-weight:700">Total Balance</div>
+    <div style="font-size:32px;font-weight:900;margin:4px 0 14px">₹0</div>
+    <div style="display:flex;gap:8px">
+      <button style="flex:1;background:#0284c7;color:#fff;padding:12px;border:none;border-radius:12px;font-weight:800" onclick="alert('Deposit gateway jald aayega!')">+ Add Cash</button>
+      <button style="flex:1;background:#fff;border:1px solid #cbd5e1;padding:12px;border-radius:12px;font-weight:800" onclick="alert('Minimum withdrawal ₹50 hai!')">💵 Withdraw</button>
+    </div>
+  </div>
+</main>
 
-        // मुख्य प्ले बटन पर क्लिक होने पर
-        function onPlayClicked() {
-            // यहाँ अगली स्क्रीन खुलेगी जो आप बताएंगे
-            alert("लूडो बैटल लोड हो रहा है! (अगली स्क्रीन जल्द आ रही है)");
-        }
+<!-- 4. REFER -->
+<main id="v-refer" class="view-sec">
+  <h2 style="font-size:20px;font-weight:900">Refer & Earn 💰</h2>
+  <div class="card-w" style="display:flex;justify-content:space-between;align-items:center">
+    <div><div style="font-size:11px;color:#64748b">Code</div><b>SAIF786</b></div>
+    <button onclick="alert('Code copied!')" style="background:#0284c7;color:#fff;border:none;padding:6px 14px;border-radius:8px;font-weight:700">Copy</button>
+  </div>
+  <button onclick="shareWA()" style="background:#22c55e;color:#fff;border:none;padding:14px;border-radius:14px;font-weight:800;font-size:15px;cursor:pointer">💬 WhatsApp par share karein</button>
+</main>
 
-        // अन्य बटन्स के फंक्शन्स
-        function openMenu() {
-            alert("मेनू खोला गया");
-        }
+<!-- 5. HISTORY -->
+<main id="v-history" class="view-sec">
+  <h2 style="font-size:20px;font-weight:900">Transaction Timeline</h2>
+  <div class="card-w" style="text-align:center;padding:35px 20px">
+    <div style="font-size:40px;margin-bottom:8px">📂</div>
+    <b>Abhi koi record maujood nahi hai</b>
+    <p style="font-size:12px;color:#64748b;margin-top:4px">Kripya deposit karein aur pehla game khelein!</p>
+  </div>
+</main>
 
-        function openNotice() {
-            alert("कोई नया नोटिफिकेशन नहीं है।");
-        }
+<!-- 6. SUPPORT -->
+<main id="v-support" class="view-sec">
+  <div class="card-w" onclick="openSupport()" style="display:flex;justify-content:space-between;align-items:center;cursor:pointer">
+    <div style="display:flex;align-items:center;gap:12px">
+      <div style="width:42px;height:42px;background:#dcfce7;color:#16a34a;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px">💬</div>
+      <div><b>WhatsApp Support</b><div style="font-size:12px;color:#16a34a;font-weight:700">1-2 MIN INSTANT REPLY</div></div>
+    </div>
+    <span style="color:#94a3b8;font-size:18px">›</span>
+  </div>
+</main>
 
-        function openWallet() {
-            alert("वॉलेट सेक्शन: डिपॉजिट और विड्रॉल जल्द आ रहा है!");
-        }
+<nav class="bottom-nav">
+  <button class="nav-btn act" id="nb-home" onclick="go('home')"><span>🏠</span><span>Home</span></button>
+  <button class="nav-btn" id="nb-wallet" onclick="go('wallet')"><span>👛</span><span>Wallet</span></button>
+  <button class="nav-btn" id="nb-support" onclick="go('support')"><span>🎧</span><span>Support</span></button>
+  <button class="nav-btn" id="nb-profile" onclick="go('profile')"><span>👤</span><span>Profile</span></button>
+</nav>
 
-        function openReferral() {
-            alert("रेफरल लिंक कॉपी हो गया! दोस्तों को भेजें और 2% कमीशन पाएं।");
-        }
+<script>
+var MY_WA = "918569952689";
 
-        function navigate(page) {
-            if (page === 'home') return;
-            alert(page.toUpperCase() + " पेज जल्द उपलब्ध होगा!");
-        }
-    </script>
+window.onload = function() {
+  var name = localStorage.getItem("user_name") || "Player";
+  document.getElementById("u-name").innerText = name;
+  document.getElementById("p-name").innerText = name;
+  document.getElementById("p-avatar").innerText = name.charAt(0).toUpperCase();
+};
+
+function toggleMenu(open) {
+  document.getElementById("drw").classList.toggle("open", open);
+  document.getElementById("ovl").style.display = open ? "block" : "none";
+}
+
+function go(sec) {
+  toggleMenu(false);
+  ['home','profile','wallet','refer','history','support'].forEach(function(s){
+    var el = document.getElementById('v-' + s);
+    if(el) el.classList.remove('active');
+  });
+  var target = document.getElementById('v-' + sec);
+  if(target) target.classList.add('active');
+
+  ['home','wallet','support','profile'].forEach(function(b){
+    var btn = document.getElementById('nb-' + b);
+    if(btn) btn.classList.remove('act');
+  });
+  var actBtn = document.getElementById('nb-' + sec);
+  if(actBtn) actBtn.classList.add('act');
+  window.scrollTo(0,0);
+}
+
+function openSupport() {
+  var msg = encodeURIComponent("हाय सैफ भाई आई नीड हेल्प");
+  window.open("https://wa.me/" + MY_WA + "?text=" + msg, "_blank");
+}
+
+function shareWA() {
+  var msg = encodeURIComponent("Saif Ludo khelo aur jeeto! Link: https://saif-ludo.vercel.app");
+  window.open("https://api.whatsapp.com/send?text=" + msg, "_blank");
+}
+
+function logout() {
+  if(confirm("Logout karna chahte hain?")) {
+    localStorage.clear();
+    window.location.href = "index.html";
+  }
+}
+
+function installPWA() {
+  toggleMenu(false);
+  alert("Chrome ke upar 3 dots (⋮) par tap karke 'Add to Home screen' chunein.");
+}
+</script>
 </body>
 </html>
 
